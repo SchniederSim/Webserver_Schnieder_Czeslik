@@ -1,0 +1,114 @@
+<body ng-app="myApp" id="steering" class="STEERING" ng-controller="steeringCtrl" style="height: 90%">
+
+    <link rel="stylesheet" href="index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
+    <script src="steeringCtrl.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <div class="topnav" layout="row" layout-align="center center">
+        <div layout="row" layout-align="end center" style="width: 55%">
+            <label style="font-size: 24px;">ShareYourFlat</label>
+        </div>
+
+        <div layout="row" layout-align="end center" style="width: 45%">
+            <md-button class=" md-fab md-raised md-mini" ng-click="settings($event)">
+                <md-icon class="settings" md-svg-src="icons/settings.svg"></md-icon>
+            </md-button>
+        </div>
+    </div>
+
+    <div layout="row" class="cards">
+        <div class="steeringCard" style="background-color:white;" layout="column" layout-align="start center">
+            <img id="imageid" style="height: 500px; width:600px;"src="" alt="Stream nicht gefunden. Überprüfen Sie die Einstellungen."> 
+            <label>Steuern Sie den Roboter mit den Pfeiltasten</label>
+            <md-button class="upBtn md-fab md-raised md-mini">
+                <md-icon class="upIcon" md-svg-src="icons/arrow_up.svg"></md-icon>
+            </md-button>
+            <div layout="row">
+                <md-button class="leftBtn md-fab md-raised md-mini" ng-click="up()">
+                    <md-icon class="leftIcon" md-svg-src="icons/arrow_left.svg"></md-icon>
+                </md-button>
+                <md-button class="downBtn md-fab md-raised md-mini" ng-click="up()">
+                    <md-icon class="downIcon" md-svg-src="icons/arrow_down.svg"></md-icon>
+                </md-button>
+                <md-button class="rightBtn md-fab md-raised md-mini" ng-click="up()">
+                    <md-icon class="rightIcon" md-svg-src="icons/arrow_right.svg"></md-icon>
+                </md-button>
+            </div>
+        </div>
+
+        <div layout="column" class="sideCard">
+            <div class="actionCard" layout="column" style="background-color: rgb(245, 213, 155);">
+                <label>Aktionen ausführen:</label>
+                <div class="actionList" layout="column" style="margin-top:-20%" layout-align="center center" flex>
+                    <div layout="row" layout-align="center center">
+                        <md-input-container class="messageField">
+                            <label>Nachricht an Roboter</label>
+                            <textarea class="msgInput" ng-model="msg" maxlength="60"></textarea>
+                        </md-input-container>
+                        <md-button class="sendButton" ng-disabled="msg == undefined || msg == ''" ng-click="sendMsg()">
+                            Senden</md-button>
+                    </div>
+                    <div layout="row" layout-align="start start" style="width:100%">
+                        <md-button class="md-fab md-raised md-mini" aria-label="song1" ng-click="playSong1()">
+                            <md-icon md-svg-src="icons/cake.svg"></md-icon>
+                        </md-button>
+                        <label style="margin-top: 6%;"> Happy Birthday spielen</label>
+                    </div>
+
+                    <div layout="row" layout-align="start start" style="width:100%">
+                        <md-button class="md-fab md-raised md-mini" aria-label="song2" ng-click="playSong2()">
+                            <md-icon md-svg-src="icons/disc.svg"></md-icon>
+                        </md-button>
+                        <label style="margin-top: 6%;"> Jingle Bells spielen</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="infoCard" layout="column" style="background-color:rgb(245, 213, 155);">
+                <label style="margin-left:2%">Roboterinformationen:</label>
+                <table style="width:100%;">
+                    <tr>
+                        <td>Verbindung</td>
+                        <td>
+                            <span ng-show="!connection" class="dot" style="background-color: red"></span>
+                            <span ng-show="connection" class="dot" style="background-color: rgb(46, 185, 19)"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Motoren:</td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>links</td>
+                        <td>
+                            <span ng-show="!links" class="dot" style="background-color: #bbb"></span>
+                            <span ng-show="links" class="dot" style="background-color: rgb(46, 185, 19)"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>rechts</td>
+                        <td>
+                            <span ng-show="!rechts" class="dot" style="background-color: #bbb"></span>
+                            <span ng-show="rechts" class="dot" style="background-color: rgb(46, 185, 19)"></span>
+                        </td>
+                    </tr>
+                </table>
+                <div layout="row" style="margin-top:3%;margin-left:2%">
+                    <span class="dot" style="background-color: rgb(46, 185, 19)"></span>
+                    <label style="margin-left:2%">aktiv</label>
+
+                    <span class="dot" style="background-color: #bbb; margin-left:20%"></span>
+                    <label style="margin-left:2%">passiv</label>
+                </div>
+
+              
+
+            </div>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,19 @@
+{
+  "name": "share-my-flat-webserver",
+  "version": "1.0.0",
+  "description": "webserver for share-my-flat",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.hs-ruhrwest.de:eingebettete-systeme/share-my-flat-webserver.git"
+  },
+  "author": "Leon Schierbach,  Anne Holletscke, Simon Schnieder, Amina Kurbanova",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mqtt": "^4.2.6",
+    "socket.io": "^3.1.2"
+  }
+}
