@@ -1,11 +1,44 @@
 <link rel="stylesheet" href="global-styles.css">
 <link rel="stylesheet" href="product-list.css">
-<script src="scripts/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="index.css">
 
-<script type="module" src="./scripts/product-script.js"></script>
+<script src="scripts/jquery-3.6.0.min.js"></script>
+<script type="module" src="./scripts/product-list.js"></script>
 <script type="module" src="./scripts/product.js"></script>
 <script type="module" src="./scripts/navbar.js"></script>
+<script src="https://kit.fontawesome.com/b33741772b.js" crossorigin="anonymous"></script>
 
+<script>
+    function searchForProductTitle(){
+        if(document.getElementById('search-input').value === ""){
+            alert("Bitte geben Sie einen Suchbegriff ein");
+        }
+        else{
+            let searchString = document.getElementById('search-input').value;
+            console.log(searchString);
+
+            var elements = document.getElementsByClassName('product');
+            // console.log(elements);
+            Array.prototype.forEach.call(elements, function(element) {
+                // console.log(element);
+                // console.log(element.getElementsByClassName('product-title').item(0).innerHTML);
+                let productTitle = element.getElementsByClassName('product-title').item(0).innerHTML;
+                if(productTitle.toUpperCase().includes(searchString.toUpperCase())){
+                    element.style.display = "block";
+                }
+                else{
+                    console.log("no Match");
+                    element.style.display = "none";
+                }
+            });
+        }
+    }
+
+    function navigateToProduct(buttonElement){
+        console.log(buttonElement.closest('sales-product').id);
+        window.location.replace("product-detail.php?pid=" + buttonElement.closest('sales-product').id);
+    }
+</script>
 
 
 <div class="navbar-page-container">
@@ -14,26 +47,15 @@
         <div class="page-container">
             <h1 class="header">Products</h1>
             <hr>
-            <div id="product-container">
-                <!-- <div class="product">
-                    <div class="columns" style="display: flex; margin-bottom: 20px;">
-                        <div class="img-col" style="width: 220px; display: flex; flex-direction: column; justify-content: center;">
-                            <img src="resources/background-test.jpg" width="200" height="200" style="display: block; margin: 10px; border: 1px solid grey">
-                            <button style="margin: auto; margin-top: 0px; height: 40px; border-radius:30px; background: #275efe; color: white; font-size:20px; cursor: pointer;">Zum Produkt &#8594;</button>
-                        </div>
-                        <div class="description-col">
-                            <div class="product-name" style="margin: 10px; font-size: 25px">Hier könnte ihr Produktname stehen, der im Zweifel auch mal ein wenig länger sein kann und damit die Maximalbreite überschreitet.</div>
-                            <hr>
-                            <div class="product-description" style="margin: 10px;">Hier könnte ihre Produktbeschreibung stehen.</div>
-                            <div class="product-price" style="margin: 10px;">Hier könnte ihr Preis stehen.</div>
-                            <div class="product-shipping-info" style="margin: 10px;">Hier könnten ihre Versandinformationen stehen.</div>
-                            <div class="product-rating" style="margin: 10px;">Hier könnte ihr Produktrating stehen.</div>
-                        </div>
-                    </div>
+            <div class="search-bar-area">
+                <div class="search-bar-container">
+                    <input id="search-input" type="text" class="search-bar-input" aria-label="search" placeholder="Search product">
+                    <button class="search-bar-button" aria-label="search button" onclick="searchForProductTitle()"><i class="fas fa-search search-bar-icon"></i></button>
                 </div>
-                <hr> -->
             </div>
-            
+            <div id="product-container">
+                
+            </div>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 :root{
     --nav-bar-height: 50px;
+    --primary-color: rgb(0, 61, 92);
 }
 
 body{
@@ -42,7 +43,7 @@ ul {
 }
 
 .menu-bar{
-  background-color: rgb(0, 61, 92);
+  background-color: var(--primary-color);
   height: var(--nav-bar-height);
   position: sticky;
   top: 0px;
@@ -52,7 +53,7 @@ ul {
 
 .menu-bar ul{
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 

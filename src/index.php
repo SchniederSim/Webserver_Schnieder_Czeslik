@@ -9,7 +9,7 @@
     <script type="module" src="scripts/navbar.js"></script>
     <!-- <script type="module" src="./scripts/product.js"></script> -->
 
-    <!-- <script type="module" src="./product-script.js"></script> -->
+    <!-- <script type="module" src="./product-list.js"></script> -->
     <!-- <script src="jquery-test.js"></script> -->
 
     <link rel="stylesheet" href="index.css">
