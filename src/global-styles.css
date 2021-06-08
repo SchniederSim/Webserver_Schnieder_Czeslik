@@ -57,6 +57,11 @@ ul {
   align-items: center;
 }
 
+.right-item{
+  position: fixed;
+  right: 0px;
+}
+
 li{
   height: var(--nav-bar-height);
   padding: 0px 10px;

@@ -1,0 +1,8 @@
+#not-logged-in, .to-login-link{
+    font-size: 30px;
+}
+
+.to-login-link{
+    font-style: italic;
+    text-decoration: underline;
+}

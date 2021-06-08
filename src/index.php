@@ -7,6 +7,7 @@
     <title>Webshop</title>
     <script src="scripts/jquery-3.6.0.min.js"></script>    
     <script type="module" src="scripts/navbar.js"></script>
+
     <!-- <script type="module" src="./scripts/product.js"></script> -->
 
     <!-- <script type="module" src="./product-list.js"></script> -->
@@ -21,7 +22,12 @@
         <div class="page">
             <div class="page-container">
                 <h1 class="header">Main Page</h1>
-                <p>Hallo</p>
+                <div>
+                    <?php
+                        $user = isset($_REQUEST['username']) ? $_REQUEST['username'] : "Gast";
+                        echo "Hallo " . $user . "!";
+                    ?>
+                </div>
             </div>
         </div>
     </div>
