@@ -5,8 +5,8 @@ export class Navbar extends HTMLElement {
         this.innerHTML = `
             <div class="menu-bar">
                 <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="product-list.php">Product List</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="product-list.html">Product List</a></li>
                     <li><a href="about.php">About</a></li>
                     <li><a href="impressum.php">Impressum</a></li>
                     <li><a href="login.php">Login</a></li>

@@ -1,6 +1,6 @@
 export class Product extends HTMLElement {
 
-    constructor(title, description, price, rating, shippingInfo){ 
+    constructor(Name, Description, Price, Rating, ProducerName, inStorage){ 
         super();       
         this.innerHTML = `
             <div class="product">
@@ -10,12 +10,13 @@ export class Product extends HTMLElement {
                     <button onclick="navigateToProduct(this)" style="margin: auto; margin-top: 0px; height: 40px; border-radius:30px; background: #275efe; color: white; font-size:20px; cursor: pointer;">Zum Produkt &#8594;</button>
                 </div>
                 <div class="description-col">
-                    <div class="product-title" style="margin: 10px; font-size: 25px">${title}</div>
+                    <div class="product-name" style="margin: 10px; font-size: 25px">${Name}</div>
                     <hr>
-                    <div class="product-description" style="margin: 10px;">${description}</div>
-                    <div class="product-price" style="margin: 10px;">${price}</div>
-                    <div class="product-shipping-info" style="margin: 10px;">${rating}</div>
-                    <div class="product-rating" style="margin: 10px;">${shippingInfo}</div>
+                    <div class="product-description" style="margin: 10px;">${Description}</div>
+                    <div class="product-price" style="margin: 10px;">${Price}</div>
+                    <div class="product-rating" style="margin: 10px;">${Rating}</div>
+                    <div class="product-producer" style="margin: 10px;">${ProducerName}</div>
+                    <div class="product-inStore" style="margin: 10px;">${inStorage}</div>
                 </div>
             </div>
         </div>
