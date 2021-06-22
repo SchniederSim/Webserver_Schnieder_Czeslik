@@ -1,12 +1,12 @@
 export class Product extends HTMLElement {
 
-    constructor(Name, Description, Price, Rating, ProducerName, inStorage){ 
-        super();       
+    constructor(ID, Name, Description, Price, Rating, ProducerName, inStorage) {
+        super();
         this.innerHTML = `
             <div class="product">
             <div class="columns" style="display: flex; margin-bottom: 20px;">
                 <div class="img-col" style="width: 220px; display: flex; flex-direction: column; justify-content: center;">
-                    <img src="resources/placeholder-icon.png" width="200" height="200" style="display: block; margin: 10px; border: 1px solid grey">
+                    <img src="imgs/${ID}.jpg" width="200" height="200" style="display: block; margin: 10px; border: 1px solid grey">
                     <button onclick="navigateToProduct(this)" style="margin: auto; margin-top: 0px; height: 40px; border-radius:30px; background: #275efe; color: white; font-size:20px; cursor: pointer;">Zum Produkt &#8594;</button>
                 </div>
                 <div class="description-col">
