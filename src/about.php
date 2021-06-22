@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="global-styles.css">
 <script type="module" src="scripts/navbar.js"></script>
 
+<?php phpinfo(); ?>
+
 <div class="navbar-page-container">
     <custom-navbar></custom-navbar>
     <div class="page">

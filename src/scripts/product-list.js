@@ -12,8 +12,10 @@ socket.on('giveAllProducts', (products) => {
         console.log(product);
         document.getElementById('product-container').appendChild(product);
     }
+    checkForRole();
 });
 function requestProducts(){
+    console.log("Try to request proudcts");
     socket.emit('getAllProducts');
 }
 // function getRandomProducts(){
@@ -33,3 +35,12 @@ function requestProducts(){
 //     return objects;
 // }
 
+function checkForRole() {
+    // TODO: Ergänze Bedingung (if kein Admin)
+    if(false){
+        console.log("Checking role");
+        document.querySelectorAll('.delete-product-button').forEach(button => {
+            button.style.display = "none";
+        })
+    }
+}

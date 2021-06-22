@@ -31,15 +31,16 @@ function login(username,password){
   return user;
 }
 
-function getAllUsers() {
+function getAllUsers(callback) {
   var result;
   var sql = 'SELECT USERS.UserId, USERS.Username, USERS.Password, PERMISSIONS.Groupname FROM USERS,PERMISSIONS WHERE USERS.PermissionId = PERMISSIONS.PermissionId';
   dbConnection.query(sql, function (err, rows, fields) {
     if (err) throw err;
     console.log(rows[0].Username);
     result = rows;
+    callback(rows)
   });
-  return result;
+  // return result;
 }
 function getProduct(productId){
   var result;
@@ -77,7 +78,7 @@ function getAllPurchasesOfUser(userId){
   });
   return result;
 }
-getAllUsers();
+// getAllUsers();
 getAllPurchasesOfUser(1);
 
 function addUser(user){
@@ -140,7 +141,7 @@ function editPurchase(purchase){}
 function editProduct(product){}
 function editProducer(producer){}
 
-setInterval(getAllUsers,60000,'connection');
+setInterval(getAllPermissions,60000,'connection');
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/src/index.html');
@@ -155,6 +156,26 @@ io.on('connection', (socket) => {
       socket.emit("giveAllProducts",result);
     });   
   });
+
+  socket.on('getAllUsersForLogin', (message) => {
+    console.log('get All Users');
+    getAllUsers(function(result){
+      socket.emit("giveAllUsersForLogin",result);
+    });   
+  });
+
+  socket.on('getAllUsersForRegistration', (message) => {
+    console.log('get All Users');
+    getAllUsers(function(result){
+      socket.emit("giveAllUsersForRegistration",result);
+    });   
+  });
+
+  socket.on('addUser', (user) => {
+    console.log(user);
+    addUser(user);
+  })
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });

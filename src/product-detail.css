@@ -1,0 +1,10 @@
+.detail-container{
+    width: 99%;
+    height: 60vh;
+    border: 1px solid black;
+}
+
+.page-container{
+    position: relative;
+    overflow-x: hidden;
+}
