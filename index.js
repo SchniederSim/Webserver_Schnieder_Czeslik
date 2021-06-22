@@ -90,7 +90,7 @@ function getAllPurchasesOfUser(userId,callback){
   });
 }
 // getAllUsers();
-getAllPurchasesOfUser(1);
+// getAllPurchasesOfUser(1);
 
 
 function addUser(user,callback){

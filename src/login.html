@@ -14,7 +14,7 @@
             <h1 class="header">Login</h1>
             <div class="login-form-container">
                 <h3>Login</h3>
-                <form name="loginForm" action="index.php" onsubmit="return checkUserLogin(event)" method="post">
+                <form name="loginForm" action="index.html" onsubmit="return checkUserLogin(event)" method="post">
                     <label for="user">User Name</label>
                     <input type="text" id="user" name="username" placeholder="Username" required>
 
@@ -23,7 +23,7 @@
                     <input type="submit" value="Submit" name="submit-login">
                 </form>
                 <h3 style="text-align: center">New here? Then register for free!</h3>
-                <form name="registrationForm" action="index.php" onsubmit="return checkForNewUser(event)" method="post">
+                <form name="registrationForm" action="index.html" onsubmit="return checkForNewUser(event)" method="post">
                     <label for="firstname">First name</label>
                     <input type="text" id="firstname" name="firstname" placeholder="First name" required>
 
@@ -57,11 +57,11 @@
                 && users[i].Password === document.getElementById("password").value){
                     console.log("Korrekte Anmeldedaten!");
                     userFound = true;
-                    <?php
-                        session_start();
-                        echo session_id();
-                        $_SESSION['user'] = users[i].Username;
-                    ?>
+                    // <?php
+                    //     session_start();
+                    //     echo session_id();
+                    //     $_SESSION['user'] = users[i].Username;
+                    // ?>
 
                     
             }
