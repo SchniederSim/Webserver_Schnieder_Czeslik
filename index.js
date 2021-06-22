@@ -1,6 +1,26 @@
-const express = require('express');
-const app = express();
+
+var path = require('path');
+var express = require('express');
+var app = express();
+var router = express.Router();
+var phpExpress = require('php-express')({
+    binPath: 'php'
+});
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+app.set('port', (process.env.PORT || 5000));
+
+app.use('/', express.static(__dirname));
+
+app.set('views', path.join(__dirname, '/src'));
+app.engine('php', phpExpress.engine);
+app.set('view engine', 'php');
+
+app.all(/.+\.php$/, phpExpress.router);
+
 app.use(express.static(__dirname + '/src'));
+
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 var mysql = require('mysql');
@@ -32,116 +52,129 @@ function login(username,password){
 }
 
 function getAllUsers(callback) {
-  var result;
+  // var result;
   var sql = 'SELECT USERS.UserId, USERS.Username, USERS.Password, PERMISSIONS.Groupname FROM USERS,PERMISSIONS WHERE USERS.PermissionId = PERMISSIONS.PermissionId';
   dbConnection.query(sql, function (err, rows, fields) {
     if (err) throw err;
     console.log(rows[0].Username);
-    result = rows;
-    callback(rows)
+    callback(rows);
   });
-  // return result;
 }
-function getProduct(productId){
-  var result;
+function getProduct(productId,callback){
   var sql = 'SELECT * FROM PRODUCTS WHERE ProductId = '+productId;
   dbConnection.query(sql, function (err, rows, fields) {
     if (err) throw err;
-    result = rows[0];
+    callback(rows);
   });
-  return result;
 }
 function getAllProducts(callback){
   var sql = 'SELECT PRODUCTS.ProductId, PRODUCTS.Name, PRODUCTS.Description, PRODUCTS.InStorage, PRODUCTS.Price, PRODUCTS.Rating, PRODUCERS.ProducerName FROM PRODUCTS, PRODUCERS WHERE PRODUCTS.ProducerId = PRODUCERS.ProducerId ORDER BY Name ';    
   dbConnection.query(sql, function (err, rows, fields) {
     if (err) throw err;
-    console.log(rows[0].ProducerName);
     callback(rows);
   });
 }
 
-function getAllPermissions() {
-  var result;
+function getAllPermissions(callback) {
   dbConnection.query('SELECT * FROM PERMISSIONS', function (err, rows, fields) {
     if (err) throw err;
-    result = rows;
+    callback(rows);
   });
-  return result;
 }
-function getAllPurchasesOfUser(userId){
-  var result;
+function getAllPurchasesOfUser(userId,callback){
   var sql = 'SELECT PRODUCTS.Name, PRODUCERS.ProducerName, USERS.Username, PURCHASES.Amount, PURCHASES.totalPrice, PURCHASES.Timestamp FROM PURCHASES, PRODUCTS, PRODUCERS, USERS WHERE PURCHASES.UserId = '+userId+' AND PURCHASES.ProductId = PRODUCTS.ProductId AND PRODUCTS.ProducerId = PRODUCERS.ProducerId AND PURCHASES.UserId = USERS.UserId'; 
   dbConnection.query(sql , function (err, rows, fields) {
     if (err) throw err;
     console.log(rows[1].ProducerName);
-    result = rows;
+    callback(rows);
   });
-  return result;
 }
 // getAllUsers();
 getAllPurchasesOfUser(1);
 
-function addUser(user){
+
+function addUser(user,callback){
   dbConnection.query('INSERT INTO USERS(Username,Password,PermissionId) VALUES (?,?,?)',[user.Username,user.Password,user.PermissionId], function (err, rows, fields) {
     if (err) throw err;
-
+    callback('success');
   });
 }
-function addPurchase(purchase){
+function addPurchase(purchase,callback){
   dbConnection.query('INSERT INTO PURCHASES(ProductId,UserId,Amount,totalPrice) VALUES (?,?,?,?)',[purchase.ProductId,purchase.UserId,purchase.Amount,purchase.totalPrice], function (err, rows, fields) {
     if (err) throw err;
-
+    callback('success');
   });
 }
-function addProduct(product){
+function addProduct(product,callback){
   dbConnection.query('INSERT INTO PRODUCTS(Name,ProducerId,InStorage,Price,Description,Rating) VALUES (?,?,?,?)',[product.Name,product.ProducerId,product.InStorage,product.Price], function (err, rows, fields) {
     if (err) throw err;
-
+    
+    callback('success');
   });
 }
-function addProducer(producer){
+function addProducer(producer,callback){
   dbConnection.query('INSERT INTO PRODUCER(ProducerName) VALUES (?)',[producer.ProducerName], function (err, rows, fields) {
     if (err) throw err;
-
+    callback('success');
   });
 }
 
-function deleteUser(userId){
+function deleteUser(userId,callback){
   dbConnection.query('DELETE FROM USERS WHERE UserId = '+userId, function (err, rows, fields) {
     if (err) throw err;
-
+    callback('success');
   });
 }
-function deletePurchase(purchaseId){
+function deletePurchase(purchaseId,callback){
   dbConnection.query('DELETE FROM PURCHASES WHERE PurchaseId = ' + purchaseId, function (err, rows, fields) {
     if (err) throw err;
-
+    callback('success');
   });
 }
-function deleteProduct(productId){
+function deleteProduct(productId,callback){
   dbConnection.query('DELETE FROM PRODUCTS WHERE ProductId = ' + productId, function (err, rows, fields) {
     if (err) throw err;
-
+    callback('success');
   });
 }
-function deleteProducer(producerId){
+function deleteProducer(producerId,callback){
   dbConnection.query('DELETE FROM PRODUCERS WHERE ProducerId = ' + producerId, function (err, rows, fields) {
     if (err) throw err;
-
+    callback('success');
   });
 }
 
-function editUser(user){
-  // dbConnection.query('UPDATE USERS SET WHERE ProducerId = ' + producerId, function (err, rows, fields) {
-  //   if (err) throw err;
-
-  // });  
+function editUser(user,callback){
+  dbConnection.query("UPDATE USERS SET Username ='"+user.Username+", Password = "+user.Password+", PermissionId =" +user.PermissionId+ "' WHERE UserId = " + user.UserId, function (err, rows, fields) {
+    if (err) throw err;
+    callback('success');
+  });  
 }
-function editPurchase(purchase){}
-function editProduct(product){}
-function editProducer(producer){}
+function editPurchase(purchase,callback){
+  dbConnection.query("UPDATE PURCHASES SET ProductId ='"+purchase.ProductId+", UserId = "+purchase.UserId+", Amount =" +purchase.Amount+ ", totalPrice = "+purchase.totalPrice+"' WHERE PurchaseId = " + purchase.purchaseId, function (err, rows, fields) {
+    if (err) throw err;
+    callback('success');
+  });  
+}
+function editProduct(product,callback){
+  dbConnection.query("UPDATE PRODUCTS SET Name ='"+product.Name+", Description = "+product.Description+", ProducerId =" +product.ProducerId+ ", InStorage = "+product.InStorage+", Price = "+product.Price+", Rating = "+product.Rating+"' WHERE ProductId = " + product.ProductId, function (err, rows, fields) {
+    if (err) throw err;
+    callback('success');
+  });  
+}
+function editProducer(producer,callback){
+  dbConnection.query("UPDATE PRODUCERS SET ProducerName ='"+producer.ProducerName+"' WHERE ProducerId = " + producer.ProducerId, function (err, rows, fields) {
+    if (err) throw err;
+    callback('success');
+  });  
+}
 
-setInterval(getAllPermissions,60000,'connection');
+function connectionCheck(){
+  getAllPermissions(function(result){
+    console.log("db connection stable");
+  });
+}
+setInterval(connectionCheck,60000,'connection');
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/src/index.html');
