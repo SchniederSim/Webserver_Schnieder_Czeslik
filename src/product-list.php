@@ -1,3 +1,13 @@
+<!-- <?php
+    session_start();
+    if (!isset($_SESSION['mySessionCheck'])) {
+        $_SESSION['mySessionCheck'] = "This session (" . session_id() . ") started " . date("Y-m-d H:i:s");
+    }
+    echo '<pre>';
+    var_dump($_SESSION);
+    echo '</pre>';
+?> -->
+
 <link rel="stylesheet" href="global-styles.css">
 <link rel="stylesheet" href="product-list.css">
 <link rel="stylesheet" href="index.css">

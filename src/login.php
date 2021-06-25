@@ -1,3 +1,12 @@
+<!-- <?php
+    session_start();
+    if (!isset($_SESSION['mySessionCheck'])) {
+        $_SESSION['mySessionCheck'] = "This session (" . session_id() . ") started " . date("Y-m-d H:i:s");
+    }
+    echo '<pre>';
+    var_dump($_SESSION);
+    echo '</pre>';
+?> -->
 
 <link rel="stylesheet" href="global-styles.css">
 <link rel="stylesheet" href="login.css">
@@ -6,6 +15,7 @@
 
 
 <script src="/socket.io/socket.io.js"></script>
+
 
 <div class="navbar-page-container">
     <custom-navbar></custom-navbar>
@@ -57,10 +67,15 @@
                 && users[i].Password === document.getElementById("password").value){
                     console.log("Korrekte Anmeldedaten!");
                     userFound = true;
+                    sessionStorage.setItem("user", users[i].Username);
+                    sessionStorage.setItem("role", users[i].Groupname);  
+                    window.location.replace("user.php");
+         
                     // <?php
-                    //     session_start();
-                    //     echo session_id();
-                    //     $_SESSION['user'] = users[i].Username;
+                    //     if(isset($_POST['submit-login'])){
+                    //         $user = $_POST['username'];
+                    //         $_SESSION['user'] = $user;
+                    //     }
                     // ?>
 
                     

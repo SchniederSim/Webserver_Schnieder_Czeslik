@@ -1,7 +1,19 @@
+<!-- <?php
+    session_start();
+    if (!isset($_SESSION['mySessionCheck'])) {
+        $_SESSION['mySessionCheck'] = "This session (" . session_id() . ") started " . date("Y-m-d H:i:s");
+    }
+    echo '<pre>';
+    var_dump($_SESSION);
+    echo '</pre>';
+?> -->
+
 <link rel="stylesheet" href="global-styles.css">
 <link rel="stylesheet" href="product-detail.css">
 
 <script type="module" src="scripts/navbar.js"></script>
+<script type="module" src="scripts/product-details.js"></script>
+
 
 <div class="navbar-page-container">
     <custom-navbar></custom-navbar>
@@ -19,10 +31,10 @@
                     <button onclick="buyProduct()" class="buy-button">Buy</button>
                 </div>
             </div>
-            <!-- <?php
+            <?php
                 $product_id = $_REQUEST['pid'];
                 echo "<div>Füge hier das Produkt mit der ID " . $product_id . " ein </div>";
-            ?> -->
+            ?>
         </div>
     </div>
 </div>
@@ -30,7 +42,14 @@
 <script>
 
     function buyProduct(){
-        window.location.replace("continue-dialog.html");
+        if(sessionStorage.getItem('user')){
+            window.location.replace("continue-dialog.php");
+        }
+        else {
+            alert("Please log in to make a purchase!");
+            window.location.replace("login.php");
+
+        }
     }
     // var id = <?php echo json_encode($product_id); ?>;
     // console.log(id);

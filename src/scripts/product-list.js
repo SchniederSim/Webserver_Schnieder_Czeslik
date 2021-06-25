@@ -1,7 +1,14 @@
 import "./product.js";
 import { Product } from "./product.js";
 
-window.onload = requestProducts;
+window.onload = init_page;
+
+function init_page(){
+    if(sessionStorage.getItem('user')){
+        document.getElementById('navbar-login').innerHTML = "Logout";
+    }
+    requestProducts();
+}
 
 var socket = io();
 
@@ -37,10 +44,16 @@ function requestProducts(){
 
 function checkForRole() {
     // TODO: Ergänze Bedingung (if kein Admin)
-    if(false){
-        console.log("Checking role");
+    if(sessionStorage.getItem('role') === "ADMIN"){
+        console.log("Hello Admin");
         document.querySelectorAll('.delete-product-button').forEach(button => {
-            button.style.display = "none";
+            button.style.display = "block";
         })
-    }
+}
+    // if(false){
+    //     console.log("Checking role");
+    //     document.querySelectorAll('.delete-product-button').forEach(button => {
+    //         button.style.display = "none";
+    //     })
+    // }
 }

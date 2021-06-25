@@ -2,6 +2,14 @@
     font-size: 30px;
 }
 
+#not-logged-in{
+    display: none;
+
+}
+#logged-in {
+    display: none;
+}
+
 .to-login-link{
     font-style: italic;
     text-decoration: underline;

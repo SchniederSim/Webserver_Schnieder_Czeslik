@@ -1,5 +1,9 @@
-// window.onload = printUsers;
+window.onload = init_page;
 
+function init_page(){
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('role');
+}
 
 
 

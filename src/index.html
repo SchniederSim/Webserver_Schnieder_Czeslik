@@ -1,3 +1,16 @@
+<!-- <?php
+    session_save_path("./tmp");     // Ordner vorübergehend wieder gelöscht!
+    session_start();
+    if (!isset($_SESSION['mySessionCheck'])) {
+        $_SESSION['mySessionCheck'] = "This session (" . session_id() . ") started " . date("Y-m-d H:i:s");
+    }
+    $_SESSION['var'] = "myVariable";
+    echo '<pre>';
+    var_dump($_SESSION);
+    echo '</pre>';
+?>  -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +20,8 @@
     <title>Webshop</title>
     <script src="scripts/jquery-3.6.0.min.js"></script>    
     <script type="module" src="scripts/navbar.js"></script>
+    <script type="module" src="scripts/index.js"></script>
+
 
     <!-- <script type="module" src="./scripts/product.js"></script> -->
 
