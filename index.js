@@ -206,7 +206,9 @@ io.on('connection', (socket) => {
 
   socket.on('addUser', (user) => {
     console.log(user);
-    addUser(user);
+    addUser(user, function(message){
+      console.log(message);
+    });
   })
 
   socket.on('disconnect', () => {

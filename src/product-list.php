@@ -20,6 +20,8 @@
 <!-- <script src="../node_modules/socket.io/client-dist/socket.io.js"></script> -->
 <script src="https://kit.fontawesome.com/b33741772b.js" crossorigin="anonymous"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+
 <script>
     function searchForProductTitle(){
         if(document.getElementById('search-input').value === ""){

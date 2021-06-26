@@ -12,6 +12,7 @@
   },
   "author": "Simon Schnieder, Jonas Czeslik",
   "dependencies": {
+    "crypto-js": "^4.0.0",
     "express": "^4.17.1",
     "mqtt": "^4.2.6",
     "mysql": "^2.18.1",

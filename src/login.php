@@ -13,6 +13,7 @@
 <script type="module" src="scripts/navbar.js"></script>
 <script type="module" src="scripts/login.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 
 <script src="/socket.io/socket.io.js"></script>
 
@@ -56,15 +57,15 @@
     </div>
 </div>
 <script>
-
     var socket = io();
+    var salt = "!§$%&";
 
     socket.on('giveAllUsersForLogin', (users) => {
         console.log(users);
         var userFound = false;
         for(let i=0; i<users.length; i++){
             if(users[i].Username === document.getElementById("user").value 
-                && users[i].Password === document.getElementById("password").value){
+                && users[i].Password === CryptoJS.RIPEMD160(salt + document.getElementById("password").value + salt).toString()){
                     console.log("Korrekte Anmeldedaten!");
                     userFound = true;
                     sessionStorage.setItem("user", users[i].Username);
@@ -83,11 +84,13 @@
         }
         if(!userFound){
             alert("Password or username are incorrect!");
+            // var saltRounds = 10;
+            // var plaintextPassword = "1234";
         }
     });
-
-
+    
     socket.on('giveAllUsersForRegistration', (users) => {
+        // alert("Hello!")
         console.log("Log users:");
         var isUserUnique = true;
 
@@ -113,13 +116,22 @@
             if(isUserUnique){                           // and unique username
                 console.log("Registering successful");
                 // Add user to the database
-                var user = {
-                    Username: document.getElementById('username-register').value,
-                    Password: document.getElementById('password-register').value,
-                    PermissionId: 2
-                }
-                console.log(user);
-                socket.emit('addUser', user);
+                // var saltRounds = 10;
+                // var plainTextPassword = document.getElementById('password-register').value;
+                // bcrypt.genSalt(saltRounds, function(err, salt) {
+                //     bcrypt.hash(plainTextPassword, salt, function(err, hash) {
+
+                        var plainTextPassword = document.getElementById('password-register').value;
+                        var hashedPassword = CryptoJS.RIPEMD160(salt + plainTextPassword + salt).toString();
+                        var user = {
+                            Username: document.getElementById('username-register').value,
+                            Password: hashedPassword,
+                            PermissionId: 2
+                        }
+                        console.log(user);
+                        socket.emit('addUser', user);                    
+                //     });
+                // });
             }
         }
     });
