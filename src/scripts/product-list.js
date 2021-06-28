@@ -49,7 +49,7 @@ function checkForRole() {
     // TODO: Ergänze Bedingung (if kein Admin)
     if(sessionStorage.getItem('role') === "ADMIN"){
         console.log("Hello Admin");
-        document.querySelectorAll('.delete-product-button').forEach(button => {
+        document.querySelectorAll('.delete-product-button, .edit-product-button').forEach(button => {
             button.style.display = "block";
         })
 }

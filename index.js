@@ -224,6 +224,12 @@ io.on('connection', (socket) => {
       console.log(message);
     });
   });
+    
+  socket.on('editProduct', (product) => {
+    editProduct(product, function(message){
+      console.log(message);
+    });
+  });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');

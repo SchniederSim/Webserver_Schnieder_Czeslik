@@ -68,6 +68,34 @@
         }
     }
 
+    function editProduct(buttonElement){
+        buttonElement.closest("sales-product").classList.add("edit-product");
+    }
+
+    function saveChanges(buttonElement){
+        // console.log(buttonElement);
+        // console.log(buttonElement.closest(".product").id);
+        // console.log(buttonElement.closest(".product").getElementsByClassName('edit-product-name')[0].value);
+        // console.log(buttonElement.closest(".product").getElementsByClassName('edit-product-description')[0].value);
+        // console.log(buttonElement.closest(".product").getElementsByClassName('edit-product-price')[0].value);
+        // console.log(buttonElement.closest(".product").getElementsByClassName('edit-product-producer-name')[0].value);
+        // console.log(buttonElement.closest(".product").getElementsByClassName('edit-product-in-storage')[0].value);
+
+        var product = {
+            ProductId: buttonElement.closest(".product").id,
+            Name: buttonElement.closest(".product").getElementsByClassName('edit-product-name')[0].value,
+            Description: buttonElement.closest(".product").getElementsByClassName('edit-product-description')[0].value,
+            Price: buttonElement.closest(".product").getElementsByClassName('edit-product-price')[0].value,
+            ProducerId: buttonElement.closest(".product").getElementsByClassName('edit-product-producer-name')[0].value,
+            InStorage: buttonElement.closest(".product").getElementsByClassName('edit-product-in-storage')[0].value,
+            Rating: 1
+        }
+
+        console.log(product);
+        socket.emit("editProduct", product);
+    }
+
+
     function openAddProductDialog(){
         document.getElementById("add-product-form-container").style.display = "block";
     }
@@ -114,7 +142,7 @@
                 </div>
             </div>
             <div class="add-products-area">
-                <button id="open-add-product-dialog-button" onclick="openAddProductDialog()" style="width: 150px; height: 32px; font-size: 24px">Add Product</button>
+                <button id="open-add-product-dialog-button" onclick="openAddProductDialog()">Add Product</button>
                 <div id="add-product-form-container">   
                     <form onsubmit="return onSubmit()" id="add-product-form" style="display: flex; flex-direction: column">
                         <label for="add-product-name">Title</label>
@@ -127,8 +155,9 @@
                         <input id="add-product-producer-name" type="text">
                         <label for="add-product-in-storage">In storage</label>
                         <input id="add-product-in-storage" type="number">
-                        <button id="add-product-button" onclick="addProduct()" style="width: 150px; height: 32px; font-size: 24px">Add</button>
+                        <button id="add-product-button" onclick="addProduct()">Add</button>
                     </form>
+                    <hr style="margin-bottom: 30px">
                 </div>
             </div>
             <div id="product-container">
