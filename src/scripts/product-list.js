@@ -6,6 +6,9 @@ window.onload = init_page;
 function init_page(){
     if(sessionStorage.getItem('user')){
         document.getElementById('navbar-login').innerHTML = "Logout";
+        if(sessionStorage.getItem('role') === "ADMIN"){
+            document.getElementById("open-add-product-dialog-button").style.display = "block";
+        }
     }
     requestProducts();
 }

@@ -55,3 +55,26 @@
     width: calc(100% - 40px);
     background-color: transparent;
 }
+
+#add-product-form input {
+  width: 50vw;
+  line-height: 30px;
+  margin-bottom: 10px;
+}
+
+#add-product-form label {
+  width: 50vw;
+  font-size: 30px;
+}
+
+#open-add-product-dialog-button{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: none;
+}
+
+
+#add-product-form-container{
+  display: none;
+}
+

@@ -106,7 +106,7 @@ function addPurchase(purchase,callback){
   });
 }
 function addProduct(product,callback){
-  dbConnection.query('INSERT INTO PRODUCTS(Name,ProducerId,InStorage,Price,Description,Rating) VALUES (?,?,?,?)',[product.Name,product.ProducerId,product.InStorage,product.Price], function (err, rows, fields) {
+  dbConnection.query('INSERT INTO PRODUCTS(Name,ProducerId,InStorage,Price,Description,Rating) VALUES (?,?,?,?,?,?)',[product.Name,product.ProducerId,product.InStorage,product.Price, product.Description, product.Rating], function (err, rows, fields) {
     if (err) throw err;
     
     callback('success');
@@ -209,7 +209,21 @@ io.on('connection', (socket) => {
     addUser(user, function(message){
       console.log(message);
     });
-  })
+  });
+
+  socket.on('addProduct', (product) => {
+    console.log(product);
+    addProduct(product, function(message){
+      console.log(message);
+    });
+  });
+  
+  socket.on('deleteProduct', (productId) => {
+    console.log(productId);
+    deleteProduct(productId, function(message){
+      console.log(message);
+    });
+  });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');

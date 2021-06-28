@@ -2,7 +2,7 @@ export class Product extends HTMLElement {
     constructor(ID, Name, Description, Price, Rating, ProducerName, inStorage){ 
         super();       
         this.innerHTML = `
-            <div class="product">
+            <div id="${ID}" class="product">
                 <div class="columns" style="display: flex; margin-bottom: 20px;">
                     <div class="img-col" style="width: 220px; display: flex; flex-direction: column; justify-content: center; position: relative;">
                         <img src="imgs/${ID}.jpg" width="200" height="200" style="display: block; margin: 10px; border: 1px solid grey">
