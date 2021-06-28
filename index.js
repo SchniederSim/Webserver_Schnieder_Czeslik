@@ -89,6 +89,23 @@ function getAllPurchasesOfUser(userId,callback){
     callback(rows);
   });
 }
+
+function getAllPurchases(callback){
+  dbConnection.query('SELECT * FROM PURCHASES' , function (err, rows, fields) {
+    if (err) throw err;
+    callback(rows);
+  });
+}
+
+function getAllProducers(callback){
+  dbConnection.query('SELECT * FROM PRODUCERS' , function (err, rows, fields) {
+    if (err) throw err;
+    console.log(rows[1].ProducerName);
+    callback(rows);
+  });
+}
+
+
 // getAllUsers();
 // getAllPurchasesOfUser(1);
 
@@ -187,6 +204,27 @@ io.on('connection', (socket) => {
     console.log('get All Products');
     getAllProducts(function(result){
       socket.emit("giveAllProducts",result);
+    });   
+  });
+
+  socket.on('getAllUsers', (message) => {
+    console.log('get All Users');
+    getAllUsers(function(result){
+      socket.emit("giveAllUsers",result);
+    });   
+  });
+  
+  socket.on('getAllPurchases', (message) => {
+    console.log('get All Purchases');
+    getAllPurchases(function(result){
+      socket.emit("giveAllPurchases",result);
+    });   
+  });
+
+  socket.on('getAllProducers', (message) => {
+    console.log('get All Producers');
+    getAllProducers(function(result){
+      socket.emit("giveAllProducers",result);
     });   
   });
 

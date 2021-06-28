@@ -9,17 +9,44 @@
 ?> -->
 
 <link rel="stylesheet" href="global-styles.css">
+<link rel="stylesheet" href="about.css">
+<link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
 <script type="module" src="scripts/navbar.js"></script>
 <script type="module" src="scripts/about.js"></script>
 <script src = "/socket.io/socket.io.js"></script> 
- 
 
+ 
 <div class="navbar-page-container">
     <custom-navbar></custom-navbar>
     <div class="page">
         <div class="page-container">
             <h1 class="header">Shop Statistics</h1>
-            <div>Total storage: <p id="total-storage" style="display: inline"></p></div>
+            <div class="stat-element-container">
+                <i class="bi bi-inboxes"></i>
+                <div class="stats-element">Total storage </div><div class="stats-value" id="total-storage"></div>
+            </div>
+            <div class="stat-element-container">
+                <i class="bi bi-cart4"></i>
+                <div class="stats-element">Total purchases </div><div class="stats-value" id="total-purchases"></div>
+            </div>
+            <div class="stat-element-container">
+                <i class="bi bi-people-fill"></i>
+                <div class="stats-element">Total users </div><div class="stats-value" id="total-users"></div>
+            </div>
+            <div class="stat-element-container">
+                <i class="bi bi-building"></i>
+                <div class="stats-element">Total producers </div><div class="stats-value" id="total-producers"></div>
+            </div>
+            <div class="stat-element-container">
+                <i class="bi bi-cash"></i>
+                <div class="stats-element">Total money </div><div class="stats-value" id="total-money"></div>
+            </div>
+            <!-- <div class="stats-element">Total purchases: <p id="total-purchases" style="display: inline"></p></div>
+            <div class="stats-element">Total money earned: <p id="total-money" style="display: inline"></p> €</div>
+            <div class="stats-element">Registered users: <p id="total-users" style="display: inline"></p></div>
+            <div class="stats-element">Amount of producers: <p id="total-producers" style="display: inline"></p></div> -->
+
             <!-- <div>Kleines Testbeispiel für die Implementierung einer einfachen PHP Berechnung</div>
             <form name="multiform">
                 <input type="number" name="p1" value="1"><br>
