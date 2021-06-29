@@ -12,11 +12,13 @@ body{
 }
 
 .navbar-page-container{
-    overflow: auto;
+    /* overflow: auto; */
+    height: 100%;
 }
 
 
 .page{
+  height: calc(100vh - 1 * var(--nav-bar-height));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,13 +27,14 @@ body{
 .page-container{
     /* border: 3px solid black;
     border-radius: 20px; */
-    max-height: calc(100vh - 2 * var(--nav-bar-height));
+    /* max-height: calc(100vh - 2 * var(--nav-bar-height)); */
     width: calc(100vw - 2 * 30px);
-    overflow: auto;
+    /* overflow: auto; */
     margin-left: 20px;
     margin-right: 20px;
     margin-bottom: 20px;
     margin-top: 20px;
+    height: 100%;
 }
 
 
@@ -57,11 +60,6 @@ ul {
   align-items: center;
 }
 
-.right-item{
-  position: fixed;
-  right: 0px;
-}
-
 li{
   height: var(--nav-bar-height);
   padding: 0px 10px;
@@ -83,4 +81,44 @@ a{
   font-size: 1.25rem;
   align-items: center;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+#snackbar{
+  visibility: hidden; 
+  min-width: 250px; 
+  margin-left: -125px; 
+  background-color: #333; 
+  color: #fff; 
+  text-align: center; 
+  border-radius: 2px; 
+  padding: 16px; 
+  position: fixed; 
+  z-index: 1; 
+  left: 50%; 
+  bottom: 30px; 
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }

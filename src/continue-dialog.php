@@ -8,7 +8,7 @@
     echo '</pre>';
 ?> -->
 
-<link rel="stylesheet" href="global-styles.css">
+<link rel="stylesheet" href="css/global-styles.css">
 <script type="module" src="scripts/navbar.js"></script>
 <script type="module" src="scripts/continue-dialog.js"></script>
 

@@ -8,7 +8,7 @@
     echo '</pre>';
 ?> -->
 
-<link rel="stylesheet" href="global-styles.css">
+<link rel="stylesheet" href="css/global-styles.css">
 <link rel="stylesheet" href="about.css">
 <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
 

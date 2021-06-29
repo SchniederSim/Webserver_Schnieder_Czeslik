@@ -1,16 +1,6 @@
-<!-- <?php
-    session_start();
-    if (!isset($_SESSION['mySessionCheck'])) {
-        $_SESSION['mySessionCheck'] = "This session (" . session_id() . ") started " . date("Y-m-d H:i:s");
-    }
-    echo '<pre>';
-    var_dump($_SESSION);
-    echo '</pre>';
-?> -->
-
-<link rel="stylesheet" href="global-styles.css">
-<link rel="stylesheet" href="product-list.css">
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="css/global-styles.css">
+<link rel="stylesheet" href="css/product-list.css">
+<link rel="stylesheet" href="css/index.css">
 
 <script src="scripts/jquery-3.6.0.min.js"></script>
 <script type="module" src="./scripts/product-list.js"></script>
@@ -53,7 +43,7 @@
 
     function navigateToProduct(buttonElement){
         console.log(buttonElement.closest('sales-product').id);
-        window.location.replace("product-detail.php?pid=" + buttonElement.closest('.product').id);
+        window.location.replace("product-detail.php?pid=" + buttonElement.closest('.product').id+"&mode=1");
     }
 
     function deleteProduct(buttonElement){
