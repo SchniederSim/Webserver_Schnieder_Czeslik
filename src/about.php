@@ -1,14 +1,4 @@
-<!-- <?php
-    session_start();
-    if (!isset($_SESSION['mySessionCheck'])) {
-        $_SESSION['mySessionCheck'] = "This session (" . session_id() . ") started " . date("Y-m-d H:i:s");
-    }
-    echo '<pre>';
-    var_dump($_SESSION);
-    echo '</pre>';
-?> -->
-
-<link rel="stylesheet" href="global-styles.css">
+<link rel="stylesheet" href="css/global-styles.css">
 <script type="module" src="scripts/navbar.js"></script>
 <script type="module" src="scripts/about.js"></script>
 <script src = "/socket.io/socket.io.js"></script> 

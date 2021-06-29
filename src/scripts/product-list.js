@@ -18,7 +18,7 @@ var socket = io();
 socket.on('giveAllProducts', (products) => {
     for(let i=0; i<products.length; i++){
         let product = new Product(products[i]['ProductId'],products[i]['Name'], products[i]['Description'], products[i]['Price'], products[i]['Rating'], products[i]['ProducerName'], products[i]['InStorage']);
-        product.id = i;
+        product.id = products[i]['ProductId'];
         console.log(product);
         document.getElementById('product-container').appendChild(product);
     }

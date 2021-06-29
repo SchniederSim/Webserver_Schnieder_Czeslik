@@ -8,8 +8,9 @@
     echo '</pre>';
 ?> -->
 
-<link rel="stylesheet" href="global-styles.css">
-<link rel="stylesheet" href="login.css">
+<link rel="stylesheet" href="css/global-styles.css">
+<link rel="stylesheet" href="css/login.css">
+<script src="jquery-test.js"></script>
 <script type="module" src="scripts/navbar.js"></script>
 <script type="module" src="scripts/login.js"></script>
 
