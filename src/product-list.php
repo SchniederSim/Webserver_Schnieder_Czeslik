@@ -59,7 +59,8 @@
     }
 
     function editProduct(buttonElement){
-        buttonElement.closest("sales-product").classList.add("edit-product");
+        // buttonElement.closest("sales-product").classList.add("edit-product");
+        window.location.replace("product-detail.php?pid=" + buttonElement.closest('.product').id+"&mode=2");
     }
 
     function saveChanges(buttonElement){
@@ -87,7 +88,8 @@
 
 
     function openAddProductDialog(){
-        document.getElementById("add-product-form-container").style.display = "block";
+        window.location.replace("product-detail.php?pid=0&mode=3");
+        // document.getElementById("add-product-form-container").style.display = "block";
     }
 
     function addProduct(){{

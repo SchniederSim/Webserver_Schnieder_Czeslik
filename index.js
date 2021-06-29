@@ -16,9 +16,10 @@ app.engine('php', phpExpress.engine);
 app.set('view engine', 'php');
 app.all(/.+\.php$/, phpExpress.router);
 app.use(express.static(__dirname + '/src'));
-
+const url = require('url'); 
+var pId = undefined;
 const multer = require('multer');
-const uuid = require('uuid').v4;
+const fs = require('fs');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'src/imgs')
@@ -27,15 +28,23 @@ const storage = multer.diskStorage({
         const { originalname } = file;
         // or 
         // uuid, or fieldname
-        cb(null, originalname);
+        cb(null, pId+".jpg");
     }
 })
 const upload = multer({ storage }); // or simply { dest: 'uploads/' }
 app.use(express.static('public'))
 
-app.post('/product-list.php', upload.array('avatar'), (req, res) => {
-    //  res.sendFile(__dirname + '/src/product-list.php');
-    // return res.json({ status: 'OK', uploaded: req.files.length });
+app.post('/upload', upload.array('avatar'), (req, res) => {
+  //return res.sendFile(__dirname + '/src/product-list.php');
+    // res.json({ status: 'OK', uploaded: req.files.length });
+    res.redirect(url.format({
+      pathname:'product-detail.php',
+      query: {
+        "pid": pId,
+        "mode": 2
+      }
+    }));
+    //(__dirname + '/src/product-detail.php'+'?pid='+pId+'&mode=2');
 });
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
@@ -119,6 +128,7 @@ function getAllPurchasesOfUser(userId, callback) {
 function addUser(user, callback) {
   dbConnection.query('INSERT INTO USERS(Username,Password,PermissionId) VALUES (?,?,?)', [user.Username, user.Password, user.PermissionId], function (err, rows, fields) {
     if (err) throw err;
+    console.log(rows.insertId);
     callback('success');
   });
 }
@@ -129,10 +139,9 @@ function addPurchase(purchase, callback) {
   });
 }
 function addProduct(product, callback) {
-  dbConnection.query('INSERT INTO PRODUCTS(Name,ProducerId,InStorage,Price,Description,Rating) VALUES (?,?,?,?)', [product.Name, product.ProducerId, product.InStorage, product.Price,product.Description,0], function (err, rows, fields) {
+  dbConnection.query('INSERT INTO PRODUCTS(Name,ProducerId,InStorage,Price,Description) VALUES (?,?,?,?,?)', [product.Name, product.ProducerId, product.InStorage, product.Price,product.Description], function (err, rows, fields) {
     if (err) throw err;
-
-    callback('success');
+    callback({code:'success',pId:rows.insertId});
   });
 }
 function addProducer(producer, callback) {
@@ -182,7 +191,7 @@ function editPurchase(purchase, callback) {
 function editProduct(product, callback) {
   dbConnection.query("UPDATE PRODUCTS SET Name ='" + product.Name + "', Description = '" + product.Description + "', ProducerId ='" + product.ProducerId + "', InStorage = '" + product.InStorage + "', Price = '" + product.Price + "' WHERE ProductId = " + product.ProductId, function (err, rows, fields) {
     if (err) throw err;
-    callback('success');
+    callback({code: 'success',pId: product.ProductId});
   });
 }
 function editProducer(producer, callback) {
@@ -248,12 +257,11 @@ io.on('connection', (socket) => {
   socket.on('deleteProduct', (productId) => {
     console.log(productId);
     deleteProduct(productId, function(message){
-      console.log(message);
-    });
-  });
-    
-  socket.on('editProduct', (product) => {
-    editProduct(product, function(message){
+      fs.unlink(__dirname+"/src/imgs/"+productId+".jpg", function(err){
+        if(err){
+          console.log(err);
+        }
+      });
       console.log(message);
     });
   });
@@ -273,10 +281,16 @@ io.on('connection', (socket) => {
   socket.on("editProduct",(product) => {
     if(product.ProductId){
       editProduct(product,function(result){
+        if(result.code="success"){
+          pId = result.pId
+        }
         socket.emit("ProductEdited",result);
       })
     }else{
       addProduct(product,function(result){
+        if(result.code="success"){
+          pId = result.pId
+        }
         socket.emit("ProductEdited",result);
       })
     }
