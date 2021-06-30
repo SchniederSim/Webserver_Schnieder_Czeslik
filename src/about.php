@@ -9,7 +9,7 @@
 ?> -->
 
 <link rel="stylesheet" href="css/global-styles.css">
-<link rel="stylesheet" href="about.css">
+<link rel="stylesheet" href="css/about.css">
 <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
 
 <script type="module" src="scripts/navbar.js"></script>
