@@ -42,6 +42,15 @@
                 <i class="bi bi-cash"></i>
                 <div class="stats-element">Total money </div><div class="stats-value" id="total-money"></div>
             </div>
+            <div id="diagram-container" style="margin-top: 50px">
+                <h2>Purchases sorted by money supply cohorts</h2>
+                <!-- Eigentliche Maße für das Diagramm: 1000x600  -->
+                <Canvas Id= "money-supply-per-product" Width="1100px" Height="700px" style="margin-bottom: 50px;"></Canvas>
+                
+                <h2>Products selled after time</h2>
+
+                <Canvas Id= "selled-products-after-time" Width= "1100px" Height="700px"></Canvas>
+            </div>
             <!-- <div class="stats-element">Total purchases: <p id="total-purchases" style="display: inline"></p></div>
             <div class="stats-element">Total money earned: <p id="total-money" style="display: inline"></p> €</div>
             <div class="stats-element">Registered users: <p id="total-users" style="display: inline"></p></div>

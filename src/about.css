@@ -30,3 +30,10 @@ i{
     border-radius: 50%;
     border: 2px solid white
 }
+
+canvas{
+    display: block;
+    margin: auto;
+    /* padding: 50px; */
+    /* background: lightgray; */
+}
