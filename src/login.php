@@ -84,13 +84,10 @@
         }
         if(!userFound){
             alert("Password or username are incorrect!");
-            // var saltRounds = 10;
-            // var plaintextPassword = "1234";
         }
     });
     
     socket.on('giveAllUsersForRegistration', (users) => {
-        // alert("Hello!")
         console.log("Log users:");
         var isUserUnique = true;
 
@@ -116,22 +113,15 @@
             if(isUserUnique){                           // and unique username
                 console.log("Registering successful");
                 // Add user to the database
-                // var saltRounds = 10;
-                // var plainTextPassword = document.getElementById('password-register').value;
-                // bcrypt.genSalt(saltRounds, function(err, salt) {
-                //     bcrypt.hash(plainTextPassword, salt, function(err, hash) {
-
-                        var plainTextPassword = document.getElementById('password-register').value;
-                        var hashedPassword = CryptoJS.RIPEMD160(salt + plainTextPassword + salt).toString();
-                        var user = {
-                            Username: document.getElementById('username-register').value,
-                            Password: hashedPassword,
-                            PermissionId: 2
-                        }
-                        console.log(user);
-                        socket.emit('addUser', user);                    
-                //     });
-                // });
+                var plainTextPassword = document.getElementById('password-register').value;
+                var hashedPassword = CryptoJS.RIPEMD160(salt + plainTextPassword + salt).toString();
+                var user = {
+                    Username: document.getElementById('username-register').value,
+                    Password: hashedPassword,
+                    PermissionId: 2
+                }
+                console.log(user);
+                socket.emit('addUser', user);                    
             }
         }
     });
@@ -151,10 +141,4 @@
         socket.emit('getAllUsersForRegistration');
         return false;
     }
-
-
-    // function callDatabaseTest(){
-    //     alert("Calling database");
-    //     console.log("Calling database");
-    // }
 </script>
