@@ -76,6 +76,15 @@ function getAllUsers(callback) {
     callback(rows);
   });
 }
+
+function getUserId(username, callback) {
+  var sql = 'SELECT USERS.UserId FROM USERS WHERE Username = ' + "'" + username + "'";
+  dbConnection.query(sql, function (err, rows, fields) {
+    if (err) throw err;
+    callback(rows[0].UserId);
+  });
+}
+
 function getProduct(productId, callback) {
   var sql = 'SELECT PRODUCTS.ProductId, PRODUCTS.Name, PRODUCTS.Description, PRODUCTS.InStorage, PRODUCTS.Price, PRODUCTS.Rating, PRODUCTS.ProducerId, PRODUCERS.ProducerName FROM PRODUCTS, PRODUCERS WHERE PRODUCTS.ProducerId = PRODUCERS.ProducerId AND ProductId = ' + productId;
   dbConnection.query(sql, function (err, rows, fields) {
@@ -108,7 +117,6 @@ function getAllPurchasesOfUser(userId, callback) {
   var sql = 'SELECT PRODUCTS.Name, PRODUCERS.ProducerName, USERS.Username, PURCHASES.Amount, PURCHASES.totalPrice, PURCHASES.Timestamp FROM PURCHASES, PRODUCTS, PRODUCERS, USERS WHERE PURCHASES.UserId = ' + userId + ' AND PURCHASES.ProductId = PRODUCTS.ProductId AND PRODUCTS.ProducerId = PRODUCERS.ProducerId AND PURCHASES.UserId = USERS.UserId';
   dbConnection.query(sql, function (err, rows, fields) {
     if (err) throw err;
-    console.log(rows[1].ProducerName);
     callback(rows);
   });
 }
@@ -146,7 +154,7 @@ function addPurchase(purchase, callback) {
   });
 }
 function addProduct(product, callback) {
-  dbConnection.query('INSERT INTO PRODUCTS(Name,ProducerId,InStorage,Price,Description,Rating) VALUES (?,?,?,?)', [product.Name, product.ProducerId, product.InStorage, product.Price,product.Description,0], function (err, rows, fields) {
+  dbConnection.query('INSERT INTO PRODUCTS(Name,ProducerId,InStorage,Price,Description) VALUES (?,?,?,?,?)', [product.Name, product.ProducerId, product.InStorage, product.Price,product.Description], function (err, rows, fields) {
     if (err) throw err;
 
     callback('success');
@@ -165,6 +173,14 @@ function deleteUser(userId, callback) {
     callback('success');
   });
 }
+
+function deleteUserByUsername(username, callback) {
+  dbConnection.query('DELETE FROM USERS WHERE Username = ' + "'" + username + "'", function (err, rows, fields) {
+    if (err) throw err;
+    callback('success');
+  });
+}
+
 function deletePurchase(purchaseId, callback) {
   dbConnection.query('DELETE FROM PURCHASES WHERE PurchaseId = ' + purchaseId, function (err, rows, fields) {
     if (err) throw err;
@@ -234,6 +250,13 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('getUserId', (username) => {
+    console.log('get user ID');
+    getUserId(username, function (result) {
+      socket.emit("giveUserId", result);
+    });
+  });
+
   socket.on('getAllUsers', (message) => {
     console.log('get All Users');
     getAllUsers(function(result){
@@ -245,6 +268,13 @@ io.on('connection', (socket) => {
     console.log('get All Purchases');
     getAllPurchases(function(result){
       socket.emit("giveAllPurchases",result);
+    });   
+  });
+
+  socket.on('getAllPurchasesOfUser', (userId) => {
+    console.log('get All Purchases');
+    getAllPurchasesOfUser(userId, function(result){
+      socket.emit("giveAllPurchasesOfUser",result);
     });   
   });
 
@@ -275,6 +305,22 @@ io.on('connection', (socket) => {
       console.log(message);
     });
   });
+
+  socket.on('deleteUser', (userId) => {
+    console.log(userId);
+    deleteUser(userId, function(message){
+      console.log(message);
+    });
+  });
+
+
+  socket.on('deleteUserByUsername', (username) => {
+    console.log(username);
+    deleteUserByUsername(username, function(message){
+      console.log(message);
+    });
+  });
+
 
   socket.on('addProduct', (product) => {
     console.log(product);

@@ -10,7 +10,12 @@
     display: none;
 }
 
+#delete-user, #delete-account, #user-stats-container{
+    display: none;
+}
+
 .to-login-link{
     font-style: italic;
     text-decoration: underline;
 }
+
