@@ -13,11 +13,11 @@ export class Product extends HTMLElement {
                     <div class="description-col">
                         <div class="product-name" style="margin: 10px; font-size: 25px">${Name}</div>
                         <hr>
-                        <div class="product-description" style="margin: 10px;">${Description}</div>
-                        <div class="product-price" style="margin: 10px;">${Price}</div>
-                        <div class="product-rating" style="margin: 10px;">${Rating}</div>
-                        <div class="product-producer" style="margin: 10px;">${ProducerName}</div>
-                        <div class="product-inStore" style="margin: 10px;">${inStorage}</div>
+                        <!--<div class="product-description" style="margin: 10px;">${Description}</div>-->
+                        <div class="product-price" style="margin: 10px;">${Price}€</div>
+                        <div class="product-producer" style="margin: 10px;">Hersteller: ${ProducerName}</div>
+                        <div class="product-rating" style="margin: 10px;">${Rating} Sterne</div>
+                        <div class="product-inStore" style="margin: 10px;">${inStorage} Exemplare auf Lager</div>
                     </div>
                 </div>
                 <div class="edit-product-container">

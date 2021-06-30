@@ -12,10 +12,6 @@
     <div class="page">
         <div class="page-container">
             <h1 class="header">Product Details</h1>
-            <form action="/product-list.php" method="post" enctype="multipart/form-data">
-        <input type="file" name="avatar" multiple/>
-        <button>Submit</button>
-      </form>
             <div class="detail-container" flex>
                 <div class="info-col">
                     <div class="detail-header"></div>
@@ -24,8 +20,11 @@
                 <div class="product-details">
                     <div class="imgBox">
                         <img id="image" src="imgs" width="300" height="300" style="display: block; margin: 10px; border: 1px solid grey">
-                        <label style="width:100%" id="imgLabel">Bild ändern: </label>
-                        <input id="imageInput" type="file" accept="image/*" />
+                        <label id ="imgLabel">Anderes Bild auswählen:</label>
+                        <form id="imgForm" action="/upload" method="post" enctype="multipart/form-data">
+                            <input id="imageInput" type="file" name="avatar" multiple/>
+                            <button style="visibility:hidden">Submit</button>
+                        </form>
                         <label style="font-size: 54px; margin-left: 100px;">€</label>
                         <input id="price" type="number" min="0" style="font-size: 50px; width:120px">
                     </div>
@@ -83,29 +82,38 @@ function init_page(){
         socket.emit('getProduct',pId);
     }
     function saveProduct(){
+        if(sessionStorage.getItem('role') !== "ADMIN"){
+        return 0;
+        }
         var product = { 
             Name: document.getElementById('name').value,
-            Description: document.getElementById('description').innerHTML,
+            Description: document.getElementById('description').value,
             ProducerId : document.getElementById('producerName').value,
             InStorage : document.getElementById('inStorage').value,
             Price: document.getElementById('price').value
-        
         }
-        var image = document.getElementById('imageInput').files[0];
-        console.log(image);
-        // if(image.type != "image/jpeg" && image.type != "image/png"){
-        //     appearSnackbar("Das neue Bild ist nicht vom Typ jpeg oder png", "red");
-        //     return 0;
-        // }
+        if(!product.Name){
+            appearSnackbar("Bitte Produkttitel angeben", "red");
+            return 0;
+        }
+        if(!product.Description || product.Description == " "){
+            appearSnackbar("Bitte Produktinfo angeben", "red");
+            return 0;
+        }
+        if(!product.ProducerId){
+            appearSnackbar("Bitte Hersteller angeben", "red");
+            return 0;
+        }
+        if(!product.Price){
+            appearSnackbar("Bitte Preis angeben", "red");
+            return 0;
+        }
+        if(!product.InStorage){
+            product.InStorage = 0;
+        }
         if(mode == 2){
             product.ProductId = pId;
         }
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", '/product-list.php', true);
-        xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-        xhr.send(JSON.stringify({
-            value: image
-        }));
         socket.emit('editProduct',product);
         
     }
@@ -130,7 +138,12 @@ function init_page(){
         for(index in producers) {
             producerBox.options[producerBox.options.length] = new Option(producers[index].ProducerName, producers[index].ProducerId);
         }
-        producerBox.value = product.ProducerId || 1;
+        
+        if(!product || !product.ProducerId){
+            producerBox.value = 1;
+        }else{
+        producerBox.value = product.ProducerId;
+        }
         producerBox.disabled = mode == 1;
     })
     socket.on('giveProduct',(result)=>{
@@ -158,7 +171,10 @@ function init_page(){
         }      
     })
     socket.on('ProductEdited',(result)=>{
-        if(result=='success'){
+        if(result.code=='success'){
+            var img = document.getElementById('imgForm');
+            document.getElementById('imgForm').submit();
+            
             appearSnackbar("Produkt gespeichert","green");
         }else{
             appearSnackbar("Produkt konnte nicht abgeschlossen werden.","red");
