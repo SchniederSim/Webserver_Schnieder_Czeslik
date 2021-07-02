@@ -215,6 +215,14 @@ function editUser(user, callback) {
     callback('success');
   });
 }
+
+function editUserRole(username, permissionId, callback) {
+  dbConnection.query("UPDATE USERS SET PermissionId = " + permissionId + " WHERE Username = " + "'" + username + "'", function (err, rows, fields) {
+    if (err) throw err;
+    callback('success');
+  });
+}
+
 function editPurchase(purchase, callback) {
   dbConnection.query("UPDATE PURCHASES SET ProductId =" + purchase.ProductId + ", UserId = " + purchase.UserId + ", Amount =" + purchase.Amount + ", totalPrice = " + purchase.totalPrice + " WHERE PurchaseId = " + purchase.purchaseId, function (err, rows, fields) {
     if (err) throw err;
@@ -330,6 +338,12 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('editUserRole', (username, permissionId) => {
+    console.log(username);
+    editUserRole(username, permissionId, function(message){
+      console.log(message);
+    });
+  });
 
   socket.on('addProduct', (product) => {
     console.log(product);

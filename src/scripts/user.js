@@ -9,7 +9,7 @@ function init_page(){
     var isUserLoggedIn = sessionStorage.getItem('user');
     var isAdmin = sessionStorage.getItem('role') === "ADMIN";
 
-    if(isUserLoggedIn){                 // Check if user is logged in
+    if(isUserLoggedIn){
         document.getElementById('navbar-login').innerHTML = "Logout";
         console.log("User " + sessionStorage.getItem('user') +  " is logged in");
         document.getElementById("logged-in").style.display = "inline";
@@ -18,7 +18,9 @@ function init_page(){
         document.getElementById("user-stats-container").style.display = "block";
 
         if(isAdmin){
-            document.getElementById("delete-user").style.display = "block";
+            document.querySelectorAll("#delete-user, #upgrade-user, #downgrade-self").forEach((element) => {
+                element.style.display = "block";
+            })
         }
 
         loadPurchases();

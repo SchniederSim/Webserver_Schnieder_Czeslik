@@ -36,6 +36,21 @@
             socket.emit("deleteUserByUsername", sessionStorage.getItem("user"));
         }
     }
+
+    function upgradeUser(){
+        if (confirm('Are you sure you want to make this user an admin? You cannot undo this after confirmation!')) {
+            var username = document.getElementById("upgrade-user-input").value;
+            socket.emit("editUserRole", username, 1);
+        }
+    }
+
+    function downgradeYourself(){
+        if (confirm('Are you sure you want to downgrade your own account permanently? You will lose your admin rights and cannot undo this after confirmation!')) {
+            sessionStorage.setItem("role", "USER");
+            socket.emit("editUserRole", sessionStorage.getItem("user"), 2);
+            window.location.replace("index.html");
+        }
+    }
 </script>
 
 
@@ -61,15 +76,27 @@
                     <div style="display: flex; justify-content: space-between; padding-bottom: 20px;">
                         <div id="delete-user">
                             <div class="form-container" style="display: flex; align-items: center; gap: 10px">
-                                <label for="delete-user-input" style="font-size: 24px">Delete user</label>
+                                <label for="delete-user-input" style="font-size: 24px; width: 150px;">Delete user</label>
                                 <input type="text" id="delete-user-input" style="height: 30px">
-                                <button onclick="deleteUser()" style="height: 30px; font-size: 24px">Delete User</button>
+                                <button onclick="deleteUser()" style="height: 30px; font-size: 24px; width: 150px;">Delete User</button>
                             </div>
                         </div>
                         <div id="delete-account">
-                            <button onclick="deleteAccount()" style="height: 30px; font-size: 24px">Delete Account</button>
+                            <button onclick="deleteAccount()" style="height: 30px; font-size: 24px; width: 200px;">Delete Account</button>
                         </div>
                     </div> 
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 20px;">
+                        <div id="upgrade-user">
+                            <div class="form-container" style="display: flex; align-items: center; gap: 10px;">
+                                <label for="upgrade-user-input" style="font-size: 24px; width: 150px">Upgrade user</label>
+                                <input type="text" id="upgrade-user-input" style="height: 30px">
+                                <button onclick="upgradeUser()" style="height: 30px; font-size: 24px; width: 150px">Upgrade</button>
+                            </div>
+                        </div>
+                        <div id="downgrade-self">
+                            <button onclick="downgradeYourself()" style="height: 30px; font-size: 24px; width: 200px;">Downgrade</button>
+                        </div>
+                    </div>
                 </div>
 
             </div>

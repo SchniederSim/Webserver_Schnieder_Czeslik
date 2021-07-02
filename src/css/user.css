@@ -10,7 +10,7 @@
     display: none;
 }
 
-#delete-user, #delete-account, #user-stats-container{
+#delete-user, #delete-account, #user-stats-container, #upgrade-user, #downgrade-self{
     display: none;
 }
 
