@@ -70,6 +70,7 @@
                     userFound = true;
                     sessionStorage.setItem("user", users[i].Username);
                     sessionStorage.setItem("role", users[i].Groupname);  
+                    sessionStorage.setItem("uId", users[i].UserId);
                     window.location.replace("user.php");
          
                     // <?php

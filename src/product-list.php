@@ -31,11 +31,11 @@
                 // console.log(element.getElementsByClassName('product-title').item(0).innerHTML);
                 let productTitle = element.getElementsByClassName('product-name').item(0).innerHTML;
                 if(productTitle.toUpperCase().includes(searchString.toUpperCase())){
-                    element.style.display = "block";
+                    element.parentElement.style.display = "block";
                 }
                 else{
                     console.log("no Match");
-                    element.style.display = "none";
+                    element.parentElement.style.display = "none";
                 }
             });
         }

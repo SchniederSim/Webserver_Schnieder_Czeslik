@@ -21,6 +21,11 @@
       height: 80%;
     }
   }
+  .grid-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .product-info{
       display: grid;
       grid-template-rows: 10% 10%  3% 30% 10% 20%;
@@ -28,7 +33,7 @@
   }
   .rating{
       display:grid;
-      grid-template-columns: repeat(5,20%);
+      grid-template-columns: repeat(5,19%);
       column-gap: 5px;
   }
   .purchase{
@@ -63,10 +68,10 @@
     }
   }
   textarea[disabled]{
-    background-color:white;
+    background-color:transparent;
   }
   input[disabled]{
-    background-color:white;
+    background-color:transparent;
     border: none;
     color: black;
   }
@@ -74,7 +79,8 @@
     opacity: 1;
     color: black;
     border: none;
-    background-color: white;
+    /* background-color: none !important; */
+    background-color: transparent;
     -webkit-appearance: none;
     -moz-appearance: none;
     text-indent: 1px;

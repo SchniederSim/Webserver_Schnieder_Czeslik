@@ -21,9 +21,25 @@ socket.on('giveAllProducts', (products) => {
         product.id = products[i]['ProductId'];
         console.log(product);
         document.getElementById('product-container').appendChild(product);
+        generateRating(products[i]['Rating'], product.id);
     }
     checkForRole();
 });
+function generateRating(rating,productId){
+    if(!productId && productId != 0){
+        productId = "";
+    }
+    var diff = 5-rating;
+    while(diff>0){
+        var star = 6-diff;
+        document.getElementById(productId+'star'+star).style.fill="black";
+        diff--;
+    }
+    while(rating>0){
+       document.getElementById(productId+'star'+rating).style.fill="gold"; 
+       rating--;
+    }
+}
 function requestProducts(){
     console.log("Try to request proudcts");
     socket.emit('getAllProducts');

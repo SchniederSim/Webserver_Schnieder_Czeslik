@@ -101,8 +101,22 @@ function getProduct(productId, callback) {
     callback(rows);
   });
 }
+function getRatingByProduct(productId, callback){
+  var sql = 'SELECT RATING.ProductId, RATING.RatingId, RATING.UserId, RATING.Stars, RATING.Comment, RATING.Timestamp, USERS.Username FROM RATING, USERS WHERE RATING.UserId = USERS.UserId AND RATING.ProductId = ' + productId;
+  dbConnection.query(sql, function (err, rows, fields) {
+    if (err) throw err;
+    callback(rows);
+  });
+}
+function getRatingByUser(Username, callback){
+  var sql = "SELECT RATING.ProductId, RATING.RatingId, RATING.UserId, RATING.Stars, RATING.Comment, RATING.Timestamp, USERS.Username FROM RATING, USERS WHERE RATING.UserId = USERS.UserId AND USERS.Username = '" + username+"'";
+  dbConnection.query(sql, function (err, rows, fields) {
+    if (err) throw err;
+    callback(rows);
+  });
+}
 function getAllProducers(callback) {
-  var sql = 'SELECT * FROM PRODUCERS';
+  var sql = 'SELECT * FROM PRODUCERS ORDER BY ProducerName';
   dbConnection.query(sql, function (err, rows, fields) {
     if (err) throw err;
     callback(rows);
@@ -157,20 +171,29 @@ function addUser(user, callback) {
     callback('success');
   });
 }
+
 function addPurchase(purchase, callback) {
   dbConnection.query('INSERT INTO PURCHASES(ProductId,UserId,Amount,totalPrice) VALUES (?,?,?,?)', [purchase.ProductId, purchase.UserId, purchase.Amount, purchase.totalPrice], function (err, rows, fields) {
     if (err) throw err;
     callback('success');
   });
 }
+
 function addProduct(product, callback) {
-  dbConnection.query('INSERT INTO PRODUCTS(Name,ProducerId,InStorage,Price,Description) VALUES (?,?,?,?,?)', [product.Name, product.ProducerId, product.InStorage, product.Price,product.Description], function (err, rows, fields) {
+  dbConnection.query('INSERT INTO PRODUCTS(Name,ProducerId,InStorage,Price,Description,Rating) VALUES (?,?,?,?,?,?)', [product.Name, product.ProducerId, product.InStorage, product.Price,product.Description,'0'], function (err, rows, fields) {
     if (err) throw err;
-    callback({code:'success',pId:rows.insertId});
+    callback({code:'success',pId: rows.insertId});
   });
 }
+
 function addProducer(producer, callback) {
   dbConnection.query('INSERT INTO PRODUCER(ProducerName) VALUES (?)', [producer.ProducerName], function (err, rows, fields) {
+    if (err) throw err;
+    callback('success');
+  });
+}
+function addRating(rating, callback) {
+  dbConnection.query('INSERT INTO RATING(UserId,ProductId,Stars,Comment) VALUES (?,?,?,?)', [rating.UserId,rating.ProductId,rating.Stars,rating.Comment], function (err, rows, fields) {
     if (err) throw err;
     callback('success');
   });
@@ -239,6 +262,12 @@ function editProducer(producer, callback) {
   dbConnection.query("UPDATE PRODUCERS SET ProducerName =" + producer.ProducerName + " WHERE ProducerId = " + producer.ProducerId, function (err, rows, fields) {
     if (err) throw err;
     callback('success');
+  });
+}
+function changeRating(product, callback) {
+  dbConnection.query("UPDATE PRODUCTS SET Name ='" + product.Name + "', Description = '" + product.Description + "', ProducerId ='" + product.ProducerId + "', InStorage = '" + product.InStorage + "', Price = '" + product.Price + "', Rating= '"+product.Rating+ "' WHERE ProductId = " + product.ProductId, function (err, rows, fields) {
+    if (err) throw err;
+    callback({code: 'success',pId: product.ProductId});
   });
 }
 
@@ -372,10 +401,46 @@ io.on('connection', (socket) => {
   });
   socket.on('getProducers', (id) =>{
     getAllProducers(function(result){
-      console.log(result[0].ProducerName);
       socket.emit('giveProducers',result);
     })
   })
+  socket.on("getRatingsForProduct", (pId) =>{
+    console.log(pId);
+    getRatingByProduct(pId, function(result){
+      socket.emit("giveRatingsForProduct",result);
+    })
+  });
+  socket.on("getRatingsForUser", (username) =>{
+    getRatingByProduct(username, function(result){
+      socket.emit("giveRatingsForUser");
+    })
+  })
+  socket.on("saveRating",(rating) => {
+    addRating(rating, function(result){
+      if(result="success"){
+        getRatingByProduct(rating.ProductId, function(result){
+          console.log(result);
+          var avg=0;
+          result.forEach((r)=> avg = avg + parseInt(r.Stars));
+          avg = avg/result.length;
+          console.log(avg);
+          avg = Math.ceil(avg);
+          console.log(avg);
+          getProduct(rating.ProductId,function(product){
+            product[0].Rating = avg;
+           
+            var p= {ProductId:product[0].ProductId,Name:product[0].Name,Description:product[0].Description,InStorage:product[0].InStorage,Price:product[0].Price,Rating:product[0].Rating, ProducerId:product[0].ProducerId};
+            console.log(p);
+            changeRating(p,function(result){
+              socket.emit("RatingSaved",result.code);
+            })
+          })
+        })
+      }else{
+      socket.emit("RatingSaved",result);
+      }
+    });
+  });  
   socket.on("editProduct",(product) => {
     if(product.ProductId){
       editProduct(product,function(result){
