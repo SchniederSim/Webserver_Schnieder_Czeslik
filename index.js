@@ -108,8 +108,8 @@ function getRatingByProduct(productId, callback){
     callback(rows);
   });
 }
-function getRatingByUser(Username, callback){
-  var sql = "SELECT RATING.ProductId, RATING.RatingId, RATING.UserId, RATING.Stars, RATING.Comment, RATING.Timestamp, USERS.Username FROM RATING, USERS WHERE RATING.UserId = USERS.UserId AND USERS.Username = '" + username+"'";
+function getRatingByUser(username, callback){
+  var sql = "SELECT RATING.ProductId, RATING.RatingId, RATING.UserId, RATING.Stars, RATING.Comment, RATING.Timestamp, USERS.Username, PRODUCTS.Name FROM RATING, USERS, PRODUCTS WHERE RATING.UserId = USERS.UserId AND USERS.Username = " + "'" + username+ "'" + "AND PRODUCTS.ProductId = RATING.ProductId";
   dbConnection.query(sql, function (err, rows, fields) {
     if (err) throw err;
     callback(rows);
@@ -322,6 +322,13 @@ io.on('connection', (socket) => {
     getAllPurchasesOfUser(userId, function(result){
       socket.emit("giveAllPurchasesOfUser",result);
     });   
+  });
+
+  socket.on("getAllRatingsOfUser", (username) =>{
+    console.log(username);
+    getRatingByUser(username, function(result){
+      socket.emit("giveAllRatingsOfUser",result);
+    })
   });
 
   socket.on('getAllProducers', (message) => {

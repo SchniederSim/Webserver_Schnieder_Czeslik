@@ -79,9 +79,16 @@ function buyProduct(){
     if(!sessionStorage.getItem('user')){
         appearSnackbar("Sie müssen angemeldet sein","red");
     }else{
-        var amount = document.getElementById('quantity').value;
-        var purchase = { ProductId: pId, UserId: sessionStorage.uId, Amount: amount};
-        socket.emit('addPurchase', purchase);
+        var amount = parseInt(document.getElementById('quantity').value);
+        var inStorage = parseInt(document.getElementById('inStorage').value);
+
+        if(amount > inStorage){
+            alert('There are not enough products in the storage!');
+        }
+        else{
+            var purchase = { ProductId: pId, UserId: sessionStorage.uId, Amount: amount};
+            socket.emit('addPurchase', purchase);    
+        }
     }
 }
 function saveProduct(){

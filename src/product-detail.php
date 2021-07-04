@@ -62,7 +62,7 @@
                         
                     </div>
                 </div>
-                <div style="margin-top:20px; display: flex; justify-content: center; align-items: center;">
+                <div style="margin-top:100px; display: flex; justify-content: center; align-items: center;">
                     <button id="rateProduct" class="userVis grid-item" onclick="rateProduct()" style="height: 50px; border-radius:30px; background: #275efe; color: white; font-size:20px; cursor: pointer; width:200px">Bewertung abgeben</button>
                 </div>
                 <div id="rating-container" style="margin-top:20px"></div>

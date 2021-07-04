@@ -1,4 +1,5 @@
 import { Purchase } from "./purchase.js";
+import { RatingDisplay } from "./rating-display.js";
 
 window.onload = init_page;
 
@@ -33,12 +34,8 @@ function init_page(){
 }
 
 function loadPurchases(){
-    socket.emit("getUserId", sessionStorage.getItem("user"));
+    socket.emit("getAllPurchasesOfUser", sessionStorage.getItem("uId"));
 }
-socket.on("giveUserId", (userId) =>{
-    console.log(userId);
-    socket.emit("getAllPurchasesOfUser", userId);
-});
 
 socket.on("giveAllPurchasesOfUser", (purchases) => {
     for(var i = 0; i < purchases.length; i++){
@@ -49,5 +46,12 @@ socket.on("giveAllPurchasesOfUser", (purchases) => {
 })
 
 function loadComments(){
-
+    socket.emit("getAllRatingsOfUser", sessionStorage.getItem("user"));
 }
+
+socket.on("giveAllRatingsOfUser", (ratings) => {
+    for(var i = 0; i < ratings.length; i++){
+        var rating = new RatingDisplay(i+1, ratings[i].Name, ratings[i].ProductId, ratings[i].Comment, ratings[i].Stars, ratings[i].Timestamp);
+        document.getElementById("user-ratings").appendChild(rating);
+    }
+})

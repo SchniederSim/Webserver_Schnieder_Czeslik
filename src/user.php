@@ -68,8 +68,8 @@
                     <div class="user-stats">
                         <h2>Your purchases: </h2>
                         <div id="user-purchases"></div> 
-                        <h2>Your comments: </h2>
-                        <div id="user-comments"></div>
+                        <h2>Your ratings and comments: </h2>
+                        <div id="user-ratings"></div>
                     </div>
 
                     <h2>Account options: </h2>
