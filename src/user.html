@@ -68,8 +68,40 @@
             window.location.replace("index.html");
         }
     }
-</script>
 
+    function searchForUsers(){
+        socket.emit("getAllUsersForSearch");
+    }
+    socket.on("giveAllUsersForSearch", (users) => {
+        var searchString = document.getElementById("search-user-input").value;
+        var myNode = document.getElementById('found-users'); 
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.lastChild);
+        }
+
+        var foundUserHeader = document.createElement('h3');
+        foundUserHeader.innerHTML = "Matching users (" + searchString + "):";
+        document.getElementById('found-users').appendChild(foundUserHeader);
+
+        var firstUserFound = false;
+        users.forEach((user) => {
+            if(user.Username.toLocaleLowerCase().includes(searchString.toLocaleLowerCase())){
+                firstUserFound = true;
+
+                var foundUser = document.createElement('div');
+                foundUser.innerHTML = user.Username;
+                document.getElementById('found-users').appendChild(foundUser);
+            }
+        })
+        if(!firstUserFound){
+            var noUserFound = document.createElement('div');
+            noUserFound.innerHTML = "No matching user was found!";
+            noUserFound.style.fontStyle = "italic"; 
+            document.getElementById('found-users').appendChild(noUserFound);
+        }
+        window.scrollTo(0,document.body.scrollHeight);
+    })
+</script>
 
 
 <div class="navbar-page-container">
@@ -99,7 +131,7 @@
                             <div class="form-container" style="display: flex; align-items: center; gap: 10px">
                                 <label for="delete-user-input" style="font-size: 24px; width: 150px;">Delete user</label>
                                 <input type="text" id="delete-user-input" style="height: 30px">
-                                <button onclick="deleteUser()" style="height: 30px; font-size: 24px; width: 150px;">Delete User</button>
+                                <button onclick="deleteUser()" style="height: 30px; font-size: 20px; width: 100px;">Delete</button>
                             </div>
                         </div>
                         <!-- <div id="delete-Producer">
@@ -110,7 +142,7 @@
                             </div>
                         </div> -->
                         <div id="delete-account">
-                            <button onclick="deleteAccount()" style="height: 30px; font-size: 24px; width: 300px;">Delete Your Account</button>
+                            <button onclick="deleteAccount()" style="height: 30px; font-size: 20px; width: 250px;">Delete Account</button>
                         </div>
                     </div> 
                     <div style="display: flex; justify-content: space-between; padding-bottom: 50px;">
@@ -118,21 +150,33 @@
                             <div class="form-container" style="display: flex; align-items: center; gap: 10px;">
                                 <label for="upgrade-user-input" style="font-size: 24px; width: 150px">Upgrade user</label>
                                 <input type="text" id="upgrade-user-input" style="height: 30px">
-                                <button onclick="upgradeUser()" style="height: 30px; font-size: 24px; width: 150px">Upgrade</button>
+                                <button onclick="upgradeUser()" style="height: 30px; font-size: 20px; width: 100px">Upgrade</button>
                             </div>
                         </div>
                         <div id="downgrade-self">
-                            <button onclick="downgradeYourself()" style="height: 30px; font-size: 24px; width: 300px;">Downgrade Your Account</button>
+                            <button onclick="downgradeYourself()" style="height: 30px; font-size: 20px; width: 250px;">Downgrade Account</button>
                         </div>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding-bottom: 20px;">
                         <div id="new-Producer">
                             <div class="form-container" style="display: flex; align-items: center; gap: 10px">
-                                <label for="new-producer-input" style="font-size: 24px; width: 200px;">Add New Producer</label>
+                                <label for="new-producer-input" style="font-size: 24px; width: 150px;">Add Producer</label>
                                 <input type="text" id="new-producer-input" style="height: 30px">
-                                <button onclick="addNewProducer()" style="height: 30px; font-size: 24px; width: 250px;">Add New Producer</button>
+                                <button onclick="addNewProducer()" style="height: 30px; font-size: 20px; width: 100px;">Add</button>
                             </div>
                         </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 20px;">
+                        <div id="search-user">
+                            <div class="form-container" style="display: flex; align-items: center; gap: 10px">
+                                <label for="search-user-input" style="font-size: 24px; width: 150px;">User search </label>
+                                <input type="text" id="search-user-input" style="height: 30px">
+                                <button onclick="searchForUsers()" style="height: 30px; font-size: 20px; width: 100px;">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="found-users" style="padding-bottom: 50px;">
+
                     </div>
                 </div>
 

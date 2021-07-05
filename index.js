@@ -327,6 +327,13 @@ io.on('connection', (socket) => {
       socket.emit("giveAllUsers",result);
     });   
   });
+
+  socket.on('getAllUsersForSearch', (message) => {
+    console.log('get All Users');
+    getAllUsers(function(result){
+      socket.emit("giveAllUsersForSearch",result);
+    });   
+  });
   
   socket.on('getAllPurchases', (message) => {
     console.log('get All Purchases');
