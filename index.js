@@ -35,16 +35,16 @@ const upload = multer({ storage }); // or simply { dest: 'uploads/' }
 app.use(express.static('public'))
 
 app.post('/upload', upload.array('avatar'), (req, res) => {
-  //return res.sendFile(__dirname + '/src/product-list.php');
+  //return res.sendFile(__dirname + '/src/product-list.html');
     // res.json({ status: 'OK', uploaded: req.files.length });
     res.redirect(url.format({
-      pathname:'product-detail.php',
+      pathname:'product-detail.html',
       query: {
         "pid": pId,
         "mode": 2
       }
     }));
-    //(__dirname + '/src/product-detail.php'+'?pid='+pId+'&mode=2');
+    //(__dirname + '/src/product-detail.html'+'?pid='+pId+'&mode=2');
 });
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
@@ -281,10 +281,10 @@ function changeRating(product, callback) {
 
 function connectionCheck() {
   getAllPermissions(function (result) {
-    if(err){ reconnect();}
-    else{
-    console.log("db connection stable");
-    }
+    // if(err){ reconnect();}
+    // else{
+    // console.log("db connection stable");
+    // }
   });
 }
 setInterval(connectionCheck, 60000, 'connection');

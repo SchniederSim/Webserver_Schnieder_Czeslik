@@ -8,7 +8,7 @@ export class RatingDisplay extends HTMLElement {
                         <h2>Rating #${ID}</h2>
                         <div class="timestamp ${ID}">Rated on: ${Timestamp}</div>
                         <div class="rating">Rating: ${Stars}/5 </div>
-                        <div class="product-title">Product: <a class="product-link" href="../product-detail.php?pid=${ProductId}&mode=1">${ProductTitle}</a></div>
+                        <div class="product-title">Product: <a class="product-link" href="../product-detail.html?pid=${ProductId}&mode=1">${ProductTitle}</a></div>
                         <hr>
                         <textarea class="comment" id="comment" style="resize: none; font-size: 14px; width: 590px; height: 125px; border-color: transparent;" disabled>${Comment}</textarea>
                     </div>

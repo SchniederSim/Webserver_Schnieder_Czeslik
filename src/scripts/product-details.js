@@ -160,7 +160,7 @@ socket.on('giveProducers',(result)=>{
     producerBox.disabled = mode == 1;
 })
 socket.on('RatingSaved',(result)=>{
-    window.location.replace("product-detail.php?pid=" + pId+"&mode="+mode);
+    window.location.replace("product-detail.html?pid=" + pId+"&mode="+mode);
 })
 socket.on('giveProduct',(result)=>{
 

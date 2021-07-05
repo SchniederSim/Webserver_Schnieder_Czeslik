@@ -1,13 +1,3 @@
-<!-- <?php
-    session_start();
-    if (!isset($_SESSION['mySessionCheck'])) {
-        $_SESSION['mySessionCheck'] = "This session (" . session_id() . ") started " . date("Y-m-d H:i:s");
-    }
-    echo '<pre>';
-    var_dump($_SESSION);
-    echo '</pre>';
-?> -->
-
 <link rel="stylesheet" href="css/global-styles.css">
 <link rel="stylesheet" href="css/login.css">
 <script type="module" src="scripts/navbar.js"></script>
@@ -71,16 +61,7 @@
                     sessionStorage.setItem("user", users[i].Username);
                     sessionStorage.setItem("role", users[i].Groupname);  
                     sessionStorage.setItem("uId", users[i].UserId);
-                    window.location.replace("user.php");
-         
-                    // <?php
-                    //     if(isset($_POST['submit-login'])){
-                    //         $user = $_POST['username'];
-                    //         $_SESSION['user'] = $user;
-                    //     }
-                    // ?>
-
-                    
+                    window.location.replace("user.html");
             }
         }
         if(!userFound){
@@ -130,8 +111,6 @@
     function checkUserLogin(e){
         e.preventDefault();
         console.log(e);
-        // console.log(document.forms['loginForm']['username'].value);
-        // console.log(document.forms['loginForm']['password'].value);
         socket.emit('getAllUsersForLogin');
         return false;
     }

@@ -7,7 +7,6 @@
 <script type="module" src="./scripts/product.js"></script>
 <script type="module" src="./scripts/navbar.js"></script>
 <script src = "/socket.io/socket.io.js"></script> 
-<!-- <script src="../node_modules/socket.io/client-dist/socket.io.js"></script> -->
 <script src="https://kit.fontawesome.com/b33741772b.js" crossorigin="anonymous"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
@@ -43,7 +42,7 @@
 
     function navigateToProduct(buttonElement){
         console.log(buttonElement.closest('sales-product').id);
-        window.location.replace("product-detail.php?pid=" + buttonElement.closest('.product').id+"&mode=1");
+        window.location.replace("product-detail.html?pid=" + buttonElement.closest('.product').id+"&mode=1");
     }
 
     function deleteProduct(buttonElement){
@@ -60,18 +59,10 @@
 
     function editProduct(buttonElement){
         // buttonElement.closest("sales-product").classList.add("edit-product");
-        window.location.replace("product-detail.php?pid=" + buttonElement.closest('.product').id+"&mode=2");
+        window.location.replace("product-detail.html?pid=" + buttonElement.closest('.product').id+"&mode=2");
     }
 
     function saveChanges(buttonElement){
-        // console.log(buttonElement);
-        // console.log(buttonElement.closest(".product").id);
-        // console.log(buttonElement.closest(".product").getElementsByClassName('edit-product-name')[0].value);
-        // console.log(buttonElement.closest(".product").getElementsByClassName('edit-product-description')[0].value);
-        // console.log(buttonElement.closest(".product").getElementsByClassName('edit-product-price')[0].value);
-        // console.log(buttonElement.closest(".product").getElementsByClassName('edit-product-producer-name')[0].value);
-        // console.log(buttonElement.closest(".product").getElementsByClassName('edit-product-in-storage')[0].value);
-
         var product = {
             ProductId: buttonElement.closest(".product").id,
             Name: buttonElement.closest(".product").getElementsByClassName('edit-product-name')[0].value,
@@ -81,14 +72,12 @@
             InStorage: buttonElement.closest(".product").getElementsByClassName('edit-product-in-storage')[0].value,
             Rating: 1
         }
-
         console.log(product);
         socket.emit("editProduct", product);
     }
 
-
     function openAddProductDialog(){
-        window.location.replace("product-detail.php?pid=0&mode=3");
+        window.location.replace("product-detail.html?pid=0&mode=3");
         // document.getElementById("add-product-form-container").style.display = "block";
     }
 

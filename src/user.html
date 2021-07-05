@@ -78,7 +78,7 @@
         <div class="page-container">
             <h1 class="header">User</h1>
             <div class="user-content">
-                <p id="not-logged-in">Please make sure that you are logged in! You can login <a class="to-login-link" href="login.php" style="color: darkblue">here</a></p>
+                <p id="not-logged-in">Please make sure that you are logged in! You can login <a class="to-login-link" href="login.html" style="color: darkblue">here</a></p>
                 <p id="logged-in"></p>
 
                 <div id="user-stats-container">
@@ -113,7 +113,7 @@
                             <button onclick="deleteAccount()" style="height: 30px; font-size: 24px; width: 300px;">Delete Your Account</button>
                         </div>
                     </div> 
-                    <div style="display: flex; justify-content: space-between; padding-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 50px;">
                         <div id="upgrade-user">
                             <div class="form-container" style="display: flex; align-items: center; gap: 10px;">
                                 <label for="upgrade-user-input" style="font-size: 24px; width: 150px">Upgrade user</label>
@@ -121,15 +121,17 @@
                                 <button onclick="upgradeUser()" style="height: 30px; font-size: 24px; width: 150px">Upgrade</button>
                             </div>
                         </div>
+                        <div id="downgrade-self">
+                            <button onclick="downgradeYourself()" style="height: 30px; font-size: 24px; width: 300px;">Downgrade Your Account</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 20px;">
                         <div id="new-Producer">
                             <div class="form-container" style="display: flex; align-items: center; gap: 10px">
                                 <label for="new-producer-input" style="font-size: 24px; width: 200px;">Add New Producer</label>
                                 <input type="text" id="new-producer-input" style="height: 30px">
                                 <button onclick="addNewProducer()" style="height: 30px; font-size: 24px; width: 250px;">Add New Producer</button>
                             </div>
-                        </div>
-                        <div id="downgrade-self">
-                            <button onclick="downgradeYourself()" style="height: 30px; font-size: 24px; width: 300px;">Downgrade Your Account</button>
                         </div>
                     </div>
                 </div>
