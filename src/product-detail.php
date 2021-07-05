@@ -26,8 +26,8 @@
                             <input id="imageInput" type="file" name="avatar" multiple/>
                             <button style="visibility:hidden">Submit</button>
                         </form>
-                        <label style="font-size: 54px; margin-left: 100px;">€</label>
-                        <input id="price" type="number" min="0" style="font-size: 50px; min-width:120px; max-width:270px">
+                        <label style="font-size: 54px; margin-left: 80px;">€</label>
+                        <input id="price" type="number" min="0" max="999999"style="font-size: 50px; min-width:120px; max-width:185px">
                     </div>
                     
                     <div class="product-info">
