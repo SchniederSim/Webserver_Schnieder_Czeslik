@@ -1,12 +1,8 @@
 #main-header {
     font-size: 65px;
-    position: relative;
-    top: 150px;
-    left: 100px;
     font-family: 'Pacifico', cursive;
 }
 
 #hrw-logo{
-    position: relative;
     top: 20px;
 }
