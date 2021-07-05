@@ -27,12 +27,12 @@
                             <button style="visibility:hidden">Submit</button>
                         </form>
                         <label style="font-size: 54px; margin-left: 100px;">€</label>
-                        <input id="price" type="number" min="0" style="font-size: 50px; width:120px">
+                        <input id="price" type="number" min="0" style="font-size: 50px; min-width:120px; max-width:270px">
                     </div>
                     
                     <div class="product-info">
                         <div class="title">
-                            <input type="text" id="name" style="font-size: 40px" minlength="1">                      
+                            <input type="text" id="name" style="font-size: 30px; width: 550px;" minlength="1" maxlength="20">                      
                             <div class="rating userVis" style="margin-top:20px">
                                 <svg  id="star1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
                                 <svg  id="star2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
@@ -62,10 +62,10 @@
                         
                     </div>
                 </div>
-                <div style="margin-top:100px; display: flex; justify-content: center; align-items: center;">
+                <div id="rating-button">
                     <button id="rateProduct" class="userVis grid-item" onclick="rateProduct()" style="height: 50px; border-radius:30px; background: #275efe; color: white; font-size:20px; cursor: pointer; width:200px">Bewertung abgeben</button>
                 </div>
-                <div id="rating-container" style="margin-top:20px"></div>
+                <div id="rating-container"></div>
             </div>
         </div>
     </div>

@@ -175,7 +175,7 @@ button{
   column-gap: 5px;
 }
 @media (max-width: 1100px) {
-  .product-details {
+  #product-container {
     grid-template-columns: 100%;
   }
 }

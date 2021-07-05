@@ -10,7 +10,7 @@
     display: none;
 }
 
-#delete-user, #delete-account, #user-stats-container, #upgrade-user, #downgrade-self{
+#delete-user, #delete-account, #user-stats-container, #upgrade-user, #downgrade-self, #new-Producer{
     display: none;
 }
 
@@ -23,3 +23,9 @@ a.product-link{
     color: rgb(8, 8, 121);
     text-decoration: underline;
 }
+
+.user-stats{
+    display: grid; 
+    grid-template-columns: 45% 51%;
+    column-gap: 80px;
+  }

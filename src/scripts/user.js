@@ -51,7 +51,10 @@ function loadComments(){
 
 socket.on("giveAllRatingsOfUser", (ratings) => {
     for(var i = 0; i < ratings.length; i++){
+        var date = new Date(ratings[i].Timestamp);
+        date.setHours(date.getHours() +4);
+        ratings[i].Timestamp = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
         var rating = new RatingDisplay(i+1, ratings[i].Name, ratings[i].ProductId, ratings[i].Comment, ratings[i].Stars, ratings[i].Timestamp);
-        document.getElementById("user-ratings").appendChild(rating);
+        document.getElementById("user-comments").appendChild(rating);
     }
 })

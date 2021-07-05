@@ -122,6 +122,13 @@ function getAllProducers(callback) {
     callback(rows);
   });
 }
+function getProducerByName(name,callback){
+  var sql = "SELECT * FROM PRODUCERS WHERE ProducerName = '"+name+"'";
+  dbConnection.query(sql, function (err, rows, fields) {
+    if (err) throw err;
+    callback(rows[0]);
+  });
+}
 function getAllProducts(callback){
   var sql = 'SELECT PRODUCTS.ProductId, PRODUCTS.Name, PRODUCTS.Description, PRODUCTS.InStorage, PRODUCTS.Price, PRODUCTS.Rating, PRODUCERS.ProducerName FROM PRODUCTS, PRODUCERS WHERE PRODUCTS.ProducerId = PRODUCERS.ProducerId ORDER BY Name ';
   dbConnection.query(sql, function (err, rows, fields) {
@@ -187,11 +194,12 @@ function addProduct(product, callback) {
 }
 
 function addProducer(producer, callback) {
-  dbConnection.query('INSERT INTO PRODUCER(ProducerName) VALUES (?)', [producer.ProducerName], function (err, rows, fields) {
+  dbConnection.query('INSERT INTO PRODUCERS(ProducerName) VALUES (?)', [producer], function (err, rows, fields) {
     if (err) throw err;
     callback('success');
   });
 }
+
 function addRating(rating, callback) {
   dbConnection.query('INSERT INTO RATING(UserId,ProductId,Stars,Comment) VALUES (?,?,?,?)', [rating.UserId,rating.ProductId,rating.Stars,rating.Comment], function (err, rows, fields) {
     if (err) throw err;
@@ -273,11 +281,21 @@ function changeRating(product, callback) {
 
 function connectionCheck() {
   getAllPermissions(function (result) {
+    if(err){ reconnect();}
+    else{
     console.log("db connection stable");
+    }
   });
 }
 setInterval(connectionCheck, 60000, 'connection');
 
+function reconnect(){
+  dbConnection.connect(function (err) {
+    if (err) throw err;
+    console.log("Connected!");
+    hasDBConntection = true;
+  });
+}
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/src/index.html');
 });
@@ -366,6 +384,41 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('deleteProducer',(producerName)=>{
+    getProducerByName(producerName,function(result){
+      if(result==null){
+        console.log("noProducerFound");
+        socket.emit('deleteProducerRequest',"Producer does not exist");
+      }
+      else{
+        var producerId = result.ProducerId;
+        deleteProducer(producerId,function(message){
+          if(message=="success"){
+            message = "Producer was successfully deleted";
+          }else{
+            message = "Producer could not be deleted";
+          }
+          socket.emit('deleteProducerRequest',message);
+        })
+      }
+    });
+  });
+  socket.on("addNewProducer",(producerName)=>{
+    getProducerByName(producerName,function(result){
+      console.log(result);
+      if(result){
+        socket.emit("addProducerRequest","Producer already exists");
+      }else{
+        addProducer(producerName,function(result){
+          if(result="success"){
+            socket.emit("addProducerRequest","Producer was successfully saved");
+          }else{
+            socket.emit("addProducerRequest","Producer could not be saved");
+          }
+        })
+      } 
+    });   
+  });
 
   socket.on('deleteUserByUsername', (username) => {
     console.log(username);
@@ -490,7 +543,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
-});
+});  
 
 
 http.listen(3000, () => {

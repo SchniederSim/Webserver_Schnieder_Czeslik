@@ -19,6 +19,7 @@ document.getElementById('image').src="imgs/"+pId+".jpg";
 var socket = io();
 var ratings;
 var myRating={Stars:undefined,Comment:undefined,ProductId:pId, UserId: sessionStorage.uId};
+// var alreadyRatedByUser = false;
 if(mode==1){
     socket.emit('getRatingsForProduct',pId);
 }
@@ -33,6 +34,9 @@ socket.on('giveRatingsForProduct',(result) => {
         var date = new Date(ratings[i].Timestamp);
         date.setHours(date.getHours() +4);
         ratings[i].Timestamp = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
+    }
+    if(ratings[i]['Username'] == sessionStorage.user){
+        document.getElementById('rateProduct').style.visibility="hidden";
     }
     let rating = new Rating(ratings[i]['RatingId'],ratings[i]['Username'], ratings[i]['Comment'], ratings[i]['Stars'], ratings[i]['Timestamp']);
     rating.id = ratings[i]['RatingId'];

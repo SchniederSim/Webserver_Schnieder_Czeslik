@@ -3,7 +3,7 @@ export class RatingDisplay extends HTMLElement {
         super();       
         this.innerHTML = `
             <div id="${ID}" class="product grid-item">
-                <div class="columns" style="margin-bottom: 20px; max-width: 600px">
+                <div class="columns" style="margin-bottom: 20px">
                     <div class="description-col">
                         <h2>Rating #${ID}</h2>
                         <div class="timestamp ${ID}">Rated on: ${Timestamp}</div>
