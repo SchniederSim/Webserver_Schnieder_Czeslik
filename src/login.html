@@ -21,7 +21,7 @@
 
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Password" required>                
-                    <input type="submit" value="Submit" name="submit-login">
+                    <input id="submit-login" type="submit" value="Submit" name="submit-login">
                 </form>
                 <h3 style="text-align: center">New here? Then register for free!</h3>
                 <form name="registrationForm" action="index.html" onsubmit="return checkForNewUser(event)" method="post">
@@ -85,6 +85,8 @@
             }
             else{
                 console.log("Username is ok");
+                document.getElementById("user").value = document.getElementById("username-register").value;
+                document.getElementById("password").value = document.getElementById("password-register").value;
             }
         }
         // Check for password matching
@@ -103,14 +105,15 @@
                     PermissionId: 2
                 }
                 console.log(user);
-                socket.emit('addUser', user);                    
+                socket.emit('addUser', user);      
+                checkUserLogin(null);      
+              
             }
         }
     });
 
     function checkUserLogin(e){
-        e.preventDefault();
-        console.log(e);
+        if(e){e.preventDefault();}
         socket.emit('getAllUsersForLogin');
         return false;
     }
