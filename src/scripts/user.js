@@ -19,7 +19,7 @@ function init_page(){
         document.getElementById("user-stats-container").style.display = "block";
 
         if(isAdmin){
-            document.querySelectorAll("#delete-user, #upgrade-user, #downgrade-self, #new-Producer, #search-user").forEach((element) => {
+            document.querySelectorAll("#delete-user, #upgrade-user, #downgrade-self, #new-Producer, #search-user, #delete-Producer").forEach((element) => {
                 element.style.display = "block";
             })
         }

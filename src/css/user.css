@@ -10,7 +10,7 @@
     display: none;
 }
 
-#delete-user, #delete-account, #user-stats-container, #upgrade-user, #downgrade-self, #new-Producer, #search-user{
+#delete-user, #delete-account, #user-stats-container, #upgrade-user, #downgrade-self, #new-Producer, #search-user,#delete-Producer{
     display: none;
 }
 
