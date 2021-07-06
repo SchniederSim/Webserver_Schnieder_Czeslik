@@ -58,11 +58,6 @@
     grid-template-columns: 9% 91%;
     column-gap: 2px;
   }
-  /* .poducerInfo{
-    display:grid;
-    grid-template-columns: 5% 95%;
-    column-gap: 5px;
-  } */
   @media (max-width: 650px) {
     .title {
       grid-template-columns: 1fr;
@@ -95,7 +90,6 @@
     opacity: 1;
     color: black;
     border: none;
-    /* background-color: none !important; */
     background-color: transparent;
     -webkit-appearance: none;
     -moz-appearance: none;
