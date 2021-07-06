@@ -4,12 +4,12 @@ var app = express();
 app.use(express.static(__dirname + '/src'));
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const mysql = require('mysql');
 const url = require('url');
 const multer = require('multer');
 const fs = require('fs');
 
 //DB-Connection
+const mysql = require('mysql');
 var dbConnection = mysql.createConnection({
   host: 'remotemysql.com',
   port: '3306',
@@ -26,26 +26,7 @@ dbConnection.connect(function (err) {
   hasDBConntection = true;
 });
 
-//Image-saving
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'src/imgs')
-  },
-  filename: (req, file, cb) => {
-    const { originalname } = file;
-    cb(null, pId + ".jpg");
-  }
-})
-const upload = multer({ storage });
-app.post('/upload', upload.array('avatar'), (req, res) => {
-  res.redirect(url.format({
-    pathname: 'product-detail.html',
-    query: {
-      "pid": pId,
-      "mode": 2
-    }
-  }));
-});
+
 
 //SQL-SELECTS
 function getAllUsers(callback) {
@@ -240,6 +221,26 @@ function connectionCheck() {
 }
 setInterval(connectionCheck, 60000, 'connection');
 
+//Image-saving
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'src/imgs')
+  },
+  filename: (req, file, cb) => {
+    const { originalname } = file;
+    cb(null, pId + ".jpg");
+  }
+})
+const upload = multer({ storage });
+app.post('/upload', upload.array('avatar'), (req, res) => {
+  res.redirect(url.format({
+    pathname: 'product-detail.html',
+    query: {
+      "pid": pId,
+      "mode": 2
+    }
+  }));
+});
 
 //return main file for '/'
 app.get('/', (req, res) => {
