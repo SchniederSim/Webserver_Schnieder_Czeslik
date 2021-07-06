@@ -5,7 +5,7 @@ export class Product extends HTMLElement {
             <div id="${ID}" class="product">
                 <div class="columns" style="display: flex; margin-bottom: 20px;">
                     <div class="img-col" style="width: 220px; display: flex; flex-direction: column; justify-content: center; position: relative;">
-                        <img src="imgs/${ID}.jpg" width="200" height="200" style="display: block; margin: 10px; border: 1px solid grey" alt="Produkt hat kein Bild">
+                        <img src="imgs/${ID}.jpg" onerror="this.src='resources/placeholder-icon.png';" width="200" height="200" style="display: block; margin: 10px; border: 1px solid grey" alt="Produkt hat kein Bild">
                         <button onclick="navigateToProduct(this)" style="margin: auto; margin-top: 0px; height: 40px; border-radius: 30px; background: #275efe; color: white; font-size:20px; cursor: pointer;">Zum Produkt &#8594;</button>
                         <button class="delete-product-button" onclick="deleteProduct(this)" style="display: none; margin: auto; position: absolute; top: 0px; right: 0px; margin-top: 0px; height:30px; border-radius: 30px; background: lightgrey; color: black; font-size:15px; cursor: pointer;">X</button>
                         <button class="edit-product-button" onclick="editProduct(this)" style="display: none; margin: auto; position: absolute; top: 0px; right: 30px; margin-top: 0px; height:30px; border-radius: 30px; background: lightgrey; color: black; font-size:15px; cursor: pointer;">E</button>

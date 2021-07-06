@@ -18,7 +18,7 @@
                 </div>
                 <div class="product-details">
                     <div class="imgBox">
-                        <img id="image" src="imgs" width="300" height="300" style="display: block; margin: 10px; border: 1px solid grey">
+                        <img id="image" src="imgs" onerror="this.src='resources/placeholder-icon.png';" width="300" height="300" style="display: block; margin: 10px; border: 1px solid grey">
                         <label id ="imgLabel">Anderes Bild auswählen:</label>
                         <form id="imgForm" action="/upload" method="post" enctype="multipart/form-data">
                             <input id="imageInput" type="file" name="avatar" multiple/>

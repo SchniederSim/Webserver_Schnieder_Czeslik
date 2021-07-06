@@ -3,47 +3,47 @@
 
 <script type="module" src="scripts/navbar.js"></script>
 <script type="module" src="scripts/user.js"></script>
-<script src = "/socket.io/socket.io.js"></script> 
+<script src="/socket.io/socket.io.js"></script>
 
 <script>
     var socket = io();
-    
-    function deleteUser(){
+
+    function deleteUser() {
         if (confirm('Are you sure you want to delete this account permanently? You cannot undo this after confirmation!')) {
             var username = document.getElementById("delete-user-input").value;
             socket.emit("getAllUsers");
         }
     }
 
-    function deleteProducer(){
+    function deleteProducer() {
         if (confirm('Are you sure you want to delete this Producer permanently? You cannot undo this after confirmation!')) {
             var producername = document.getElementById("delete-producer-input").value;
-            socket.emit("deleteProducer",producername);
+            socket.emit("deleteProducer", producername);
         }
     }
 
-    socket.on("deleteProducerRequest", (msg)=> {
+    socket.on("deleteProducerRequest", (msg) => {
         alert(msg);
     });
 
-    socket.on("addProducerRequest", (msg)=>{
+    socket.on("addProducerRequest", (msg) => {
         alert(msg);
     });
     socket.on('giveAllUsers', (users) => {
         var doesUserExist = false;
-        for(let i=0; i<users.length; i++){
-            if(users[i].Username === document.getElementById('delete-user-input').value){
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].Username === document.getElementById('delete-user-input').value) {
                 doesUserExist = true;
                 alert("User exists");
                 socket.emit("deleteUser", users[i].UserId);
             }
         }
-        if(!doesUserExist){
+        if (!doesUserExist) {
             alert("User not found");
         }
     });
 
-    function deleteAccount(){
+    function deleteAccount() {
         if (confirm('Are you sure you want to delete your account permanently? You cannot undo this after confirmation!')) {
             console.log("Delete account");
             sessionStorage.clear();
@@ -51,17 +51,17 @@
         }
     }
 
-    function upgradeUser(){
+    function upgradeUser() {
         if (confirm('Are you sure you want to make this user an admin? You cannot undo this after confirmation!')) {
             var username = document.getElementById("upgrade-user-input").value;
             socket.emit("editUserRole", username, 1);
         }
     }
-    function addNewProducer(){
+    function addNewProducer() {
         var producerName = document.getElementById("new-producer-input").value;
-        socket.emit("addNewProducer",producerName);
+        socket.emit("addNewProducer", producerName);
     }
-    function downgradeYourself(){
+    function downgradeYourself() {
         if (confirm('Are you sure you want to downgrade your own account permanently? You will lose your admin rights and cannot undo this after confirmation!')) {
             sessionStorage.setItem("role", "USER");
             socket.emit("editUserRole", sessionStorage.getItem("user"), 2);
@@ -69,12 +69,12 @@
         }
     }
 
-    function searchForUsers(){
+    function searchForUsers() {
         socket.emit("getAllUsersForSearch");
     }
     socket.on("giveAllUsersForSearch", (users) => {
         var searchString = document.getElementById("search-user-input").value;
-        var myNode = document.getElementById('found-users'); 
+        var myNode = document.getElementById('found-users');
         while (myNode.firstChild) {
             myNode.removeChild(myNode.lastChild);
         }
@@ -85,7 +85,7 @@
 
         var firstUserFound = false;
         users.forEach((user) => {
-            if(user.Username.toLocaleLowerCase().includes(searchString.toLocaleLowerCase())){
+            if (user.Username.toLocaleLowerCase().includes(searchString.toLocaleLowerCase())) {
                 firstUserFound = true;
 
                 var foundUser = document.createElement('div');
@@ -93,13 +93,13 @@
                 document.getElementById('found-users').appendChild(foundUser);
             }
         })
-        if(!firstUserFound){
+        if (!firstUserFound) {
             var noUserFound = document.createElement('div');
             noUserFound.innerHTML = "No matching user was found!";
-            noUserFound.style.fontStyle = "italic"; 
+            noUserFound.style.fontStyle = "italic";
             document.getElementById('found-users').appendChild(noUserFound);
         }
-        window.scrollTo(0,document.body.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
     })
 </script>
 
@@ -110,14 +110,15 @@
         <div class="page-container">
             <h1 class="header">User</h1>
             <div class="user-content">
-                <p id="not-logged-in">Please make sure that you are logged in! You can login <a class="to-login-link" href="login.html" style="color: darkblue">here</a></p>
+                <p id="not-logged-in">Please make sure that you are logged in! You can login <a class="to-login-link"
+                        href="login.html" style="color: darkblue">here</a></p>
                 <p id="logged-in"></p>
 
                 <div id="user-stats-container">
                     <div class="user-stats">
                         <div id="purchaseCont">
                             <h2>Your purchases: </h2>
-                            <div id="user-purchases" style="max-height: 400px;overflow-y: auto;"></div> 
+                            <div id="user-purchases" style="max-height: 400px;overflow-y: auto;"></div>
                         </div>
                         <div id="commentCont">
                             <h2>Your comments: </h2>
@@ -129,49 +130,63 @@
                     <div style="display: flex; justify-content: space-between; padding-bottom: 20px;">
                         <div id="delete-user">
                             <div class="form-container" style="display: flex; align-items: center; gap: 10px">
-                                <label for="delete-user-input" style="font-size: 24px; width: 150px;">Delete user</label>
+                                <label for="delete-user-input" style="font-size: 24px; width: 150px;">Delete
+                                    user</label>
                                 <input type="text" id="delete-user-input" style="height: 30px">
-                                <button onclick="deleteUser()" style="height: 30px; font-size: 20px; width: 100px;">Delete</button>
+                                <button onclick="deleteUser()"
+                                    style="height: 30px; font-size: 20px; width: 100px;">Delete</button>
                             </div>
                         </div>
-                        <!-- <div id="delete-Producer">
-                            <div class="form-container" style="display: flex; align-items: center; gap: 10px">
-                                <label for="delete-producer-input" style="font-size: 24px; width: 200px;">Delete Producer</label>
-                                <input type="text" id="delete-producer-input" style="height: 30px">
-                                <button onclick="deleteProducer()" style="height: 30px; font-size: 24px; width: 250px;">Delete Producer</button>
-                            </div>
-                        </div> -->
                         <div id="delete-account">
-                            <button onclick="deleteAccount()" style="height: 30px; font-size: 20px; width: 250px;">Delete Account</button>
+                            <button onclick="deleteAccount()"
+                                style="height: 30px; font-size: 20px; width: 250px;">Delete Account</button>
                         </div>
-                    </div> 
+                    </div>
                     <div style="display: flex; justify-content: space-between; padding-bottom: 50px;">
                         <div id="upgrade-user">
                             <div class="form-container" style="display: flex; align-items: center; gap: 10px;">
-                                <label for="upgrade-user-input" style="font-size: 24px; width: 150px">Upgrade user</label>
+                                <label for="upgrade-user-input" style="font-size: 24px; width: 150px">Upgrade
+                                    user</label>
                                 <input type="text" id="upgrade-user-input" style="height: 30px">
-                                <button onclick="upgradeUser()" style="height: 30px; font-size: 20px; width: 100px">Upgrade</button>
+                                <button onclick="upgradeUser()"
+                                    style="height: 30px; font-size: 20px; width: 100px">Upgrade</button>
                             </div>
                         </div>
                         <div id="downgrade-self">
-                            <button onclick="downgradeYourself()" style="height: 30px; font-size: 20px; width: 250px;">Downgrade Account</button>
+                            <button onclick="downgradeYourself()"
+                                style="height: 30px; font-size: 20px; width: 250px;">Downgrade Account</button>
                         </div>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding-bottom: 20px;">
                         <div id="new-Producer">
                             <div class="form-container" style="display: flex; align-items: center; gap: 10px">
-                                <label for="new-producer-input" style="font-size: 24px; width: 150px;">Add Producer</label>
+                                <label for="new-producer-input" style="font-size: 24px; width: 150px;">Add
+                                    Producer</label>
                                 <input type="text" id="new-producer-input" style="height: 30px">
-                                <button onclick="addNewProducer()" style="height: 30px; font-size: 20px; width: 100px;">Add</button>
+                                <button onclick="addNewProducer()"
+                                    style="height: 30px; font-size: 20px; width: 100px;">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 50px;">
+                        <div id="delete-Producer">
+                            <div class="form-container" style="display: flex; align-items: center; gap: 10px">
+                                <label for="delete-producer-input" style="font-size: 24px; width: 150px;">Delete
+                                    Producer</label>
+                                <input type="text" id="delete-producer-input" style="height: 30px">
+                                <button onclick="deleteProducer()"
+                                    style="height: 30px; font-size: 20px; width: 100px;">Delete </button>
                             </div>
                         </div>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding-bottom: 20px;">
                         <div id="search-user">
                             <div class="form-container" style="display: flex; align-items: center; gap: 10px">
-                                <label for="search-user-input" style="font-size: 24px; width: 150px;">User search </label>
+                                <label for="search-user-input" style="font-size: 24px; width: 150px;">User search
+                                </label>
                                 <input type="text" id="search-user-input" style="height: 30px">
-                                <button onclick="searchForUsers()" style="height: 30px; font-size: 20px; width: 100px;">Search</button>
+                                <button onclick="searchForUsers()"
+                                    style="height: 30px; font-size: 20px; width: 100px;">Search</button>
                             </div>
                         </div>
                     </div>
