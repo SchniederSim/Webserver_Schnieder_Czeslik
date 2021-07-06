@@ -16,18 +16,15 @@
     var socket = io();
 
     function searchForProductTitle(){
-        if(document.getElementById('search-input').value === ""){
-            alert("Bitte geben Sie einen Suchbegriff ein");
-        }
-        else{
+        // if(document.getElementById('search-input').value === ""){
+        //     alert("Bitte geben Sie einen Suchbegriff ein");
+        // }
+        // else{
             let searchString = document.getElementById('search-input').value;
             console.log(searchString);
 
             var elements = document.getElementsByClassName('product');
-            // console.log(elements);
             Array.prototype.forEach.call(elements, function(element) {
-                // console.log(element);
-                // console.log(element.getElementsByClassName('product-title').item(0).innerHTML);
                 let productTitle = element.getElementsByClassName('product-name').item(0).innerHTML;
                 if(productTitle.toUpperCase().includes(searchString.toUpperCase())){
                     element.parentElement.style.display = "block";
@@ -37,7 +34,7 @@
                     element.parentElement.style.display = "none";
                 }
             });
-        }
+        // }
     }
 
     function navigateToProduct(buttonElement){

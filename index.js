@@ -54,7 +54,7 @@ function getProduct(productId, callback) {
   });
 }
 function getRatingByProduct(productId, callback) {
-  var sql = 'SELECT RATING.ProductId, RATING.RatingId, RATING.UserId, RATING.Stars, RATING.Comment, RATING.Timestamp, USERS.Username FROM RATING, USERS WHERE RATING.UserId = USERS.UserId AND RATING.ProductId = ' + productId;
+  var sql = 'SELECT RATING.ProductId, RATING.RatingId, RATING.UserId, RATING.Stars, RATING.Comment, RATING.Timestamp, USERS.Username FROM RATING, USERS WHERE RATING.UserId = USERS.UserId AND RATING.ProductId = ' + productId+" ORDER BY Timestamp DESC";
   dbConnection.query(sql, function (err, rows, fields) {
     if (err) throw err;
     callback(rows);
@@ -179,8 +179,7 @@ function deleteProduct(productId, callback) {
 
 function deleteProducer(producerId, callback) {
   dbConnection.query('DELETE FROM PRODUCERS WHERE ProducerId = ' + producerId, function (err, rows, fields) {
-    if (err.errno == 1217) {
-      console.log('hasProducts');
+    if (err && err.errno == 1217) {
       callback('hasProducts');
     }
     else if (err) {

@@ -60,16 +60,20 @@ if (mode != 3) {
 }
 
 function rateProduct() {
-    var rating = new Rating(0, sessionStorage.user, " ", 0, "heute");
-    var cont = document.getElementById('rating-container');
-    cont.insertBefore(rating, cont.firstChild);
-    var commentfield = document.getElementById('comment');
-    commentfield.disabled = false;
-    commentfield.focus();
-    document.getElementById('rateProduct').innerHTML = "Bewertung speichern";
-    document.getElementById('rateProduct').onclick = sendRating;
-    for (var i = 1; i < 6; i++) {
-        document.getElementById('0star' + i).onclick = generateStarfunction(i);
+    if (!sessionStorage.getItem('user')) {
+        appearSnackbar("Sie müssen angemeldet sein", "red");
+    } else {
+        var rating = new Rating(0, sessionStorage.user, " ", 0, "heute");
+        var cont = document.getElementById('rating-container');
+        cont.insertBefore(rating, cont.firstChild);
+        var commentfield = document.getElementById('comment');
+        commentfield.disabled = false;
+        commentfield.focus();
+        document.getElementById('rateProduct').innerHTML = "Bewertung speichern";
+        document.getElementById('rateProduct').onclick = sendRating;
+        for (var i = 1; i < 6; i++) {
+            document.getElementById('0star' + i).onclick = generateStarfunction(i);
+        }
     }
 }
 
