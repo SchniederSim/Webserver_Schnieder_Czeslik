@@ -44,11 +44,42 @@ function init_page(){
     socket.emit("getAllProducers");
 }
 
-function drawMoneySupplyPerProductDiagram(ctx, purchases){
-    // console.log("Drawing...");
-    // console.log(ctx);
-    // console.log(purchases);
+socket.on('giveAllProducts', (products) => {
+    var totalProducts = 0;
+    for(let i=0; i<products.length; i++){
+        totalProducts += products[i]['InStorage'];
+    }
+    document.getElementById("total-storage").innerHTML = totalProducts;
+});
 
+socket.on('giveAllUsers', (users) => {
+    var totalUsers = users.length;
+    document.getElementById("total-users").innerHTML = totalUsers;
+});
+
+socket.on('giveAllProducers', (producers) => {
+    var totalProducers = producers.length;
+    document.getElementById("total-producers").innerHTML = totalProducers;
+});
+
+socket.on('giveAllPurchases', (purchases) => {
+    // Compute total selled products and total earned money as key data about the shop
+    var totalSelledProducts = 0;
+    var totalMoney = 0;
+    for(let i=0; i<purchases.length; i++){
+        totalSelledProducts += purchases[i]['Amount'];
+        totalMoney += purchases[i]['totalPrice'];
+    }
+    document.getElementById("total-purchases").innerHTML = totalSelledProducts;
+    document.getElementById("total-money").innerHTML = totalMoney + " €";
+
+    // Draw the diagrams based on all the purchases made
+    drawMoneySupplyPerProductDiagram(ctx1, purchases);
+    drawSelledProductsAfterTimeDiagram(ctx2, purchases);
+});
+
+
+function drawMoneySupplyPerProductDiagram(ctx, purchases){
     var cohort1counter = 0;
     var cohort2counter = 0;
     var cohort3counter = 0;
@@ -73,25 +104,26 @@ function drawMoneySupplyPerProductDiagram(ctx, purchases){
         }
     })
 
-    var offset1 = cohort1counter / purchases.length * 600;
-    var offset2 = cohort2counter / purchases.length * 600;
-    var offset3 = cohort3counter / purchases.length * 600;
-    var offset4 = cohort4counter / purchases.length * 600;
-    var offset5 = cohort5counter / purchases.length * 600;
+    // Find out the length of the bars by computing the proportion of each cohort and then multiply this with the diagram height
+    var barLength1 = cohort1counter / purchases.length * 600;
+    var barLength2 = cohort2counter / purchases.length * 600;
+    var barLength3 = cohort3counter / purchases.length * 600;
+    var barLength4 = cohort4counter / purchases.length * 600;
+    var barLength5 = cohort5counter / purchases.length * 600;
 
     ctx.beginPath();
     ctx.lineWidth = "20";
     ctx.strokeStyle = "red";
     ctx.moveTo(110,650);
-    ctx.lineTo(110,650-offset1);
+    ctx.lineTo(110,650-barLength1);
     ctx.moveTo(330,650);
-    ctx.lineTo(330,650-offset2);
+    ctx.lineTo(330,650-barLength2);
     ctx.moveTo(550,650);
-    ctx.lineTo(550,650-offset3);
+    ctx.lineTo(550,650-barLength3);
     ctx.moveTo(770,650);
-    ctx.lineTo(770,650-offset4);
+    ctx.lineTo(770,650-barLength4);
     ctx.moveTo(990,650);
-    ctx.lineTo(990,650-offset5);
+    ctx.lineTo(990,650-barLength5);
 
     ctx.stroke();
 }
@@ -105,9 +137,11 @@ function drawSelledProductsAfterTimeDiagram(ctx, purchases){
         var min = purchases[0]['Timestamp'];
         var max = purchases[0]['Timestamp'];
 
+        // Iterate through all the purchases
         purchases.forEach((purchase) => {
             totalProductsSelled += purchase['Amount'];
 
+            // Gradually find out the minimum and maximum timestamp (for x-axis labeling)
             if(min > purchase['Timestamp']){
                 min = purchase['Timestamp'];
             }
@@ -115,6 +149,7 @@ function drawSelledProductsAfterTimeDiagram(ctx, purchases){
                 max = purchase['Timestamp'];
             }            
 
+            // Create an object to save the purchase amount for each day
             var isDuplicate = false;
             productsSelledPerDays.forEach((element) => {
                 if(element.date === purchase['Timestamp'].split('T')[0]){
@@ -126,13 +161,14 @@ function drawSelledProductsAfterTimeDiagram(ctx, purchases){
                 productsSelledPerDays.push({date: purchase['Timestamp'].split('T')[0], amount: purchase['Amount']});
             }
         })
-        console.log(min.split('T')[0]);
-        console.log(max.split('T')[0]);
+        // console.log(min.split('T')[0]);
+        // console.log(max.split('T')[0]);
 
-        console.log(calculateDaysBetween(min, max));
-        console.log(productsSelledPerDays);
-        console.log(totalProductsSelled);
+        // console.log(calculateDaysBetween(min, max));
+        // console.log(productsSelledPerDays);
+        // console.log(totalProductsSelled);
 
+        // Label the diagram
         ctx.font = "20px Arial";
         ctx.fillStyle = "black";
         ctx.fillText(totalProductsSelled, 0, 50);
@@ -140,16 +176,20 @@ function drawSelledProductsAfterTimeDiagram(ctx, purchases){
         ctx.fillText(min.split('T')[0], 50, 680);
         ctx.fillText(max.split('T')[0], 950, 680);
 
+        // Go to the diagram origin (50, 650)
         var currentX = 50;
         var currentY = 650;
         var lastDate = min;
         ctx.strokeStyle = "red";
         ctx.lineWidth = "3";
 
+        // Iterate through the days, when products were selled
         productsSelledPerDays.forEach((day) =>{
+            // Compute the vertical line proportion
             var percentageVertical = day.amount / totalProductsSelled;
             var pixelsUp = percentageVertical * 600;
 
+            // Compute the horizontal line proportion
             var diff = calculateDaysBetween(lastDate, day.date);
             lastDate = day.date;
             var totalDiff = calculateDaysBetween(min, max);
@@ -167,39 +207,6 @@ function drawSelledProductsAfterTimeDiagram(ctx, purchases){
         })   
     }
 }
-
-socket.on('giveAllProducts', (products) => {
-    var totalProducts = 0;
-    for(let i=0; i<products.length; i++){
-        totalProducts += products[i]['InStorage'];
-    }
-    document.getElementById("total-storage").innerHTML = totalProducts;
-});
-
-socket.on('giveAllPurchases', (purchases) => {
-    console.log("Purchases");
-    var totalSelledProducts = 0;
-    var totalMoney = 0;
-    for(let i=0; i<purchases.length; i++){
-        totalSelledProducts += purchases[i]['Amount'];
-        totalMoney += purchases[i]['totalPrice'];
-    }
-    document.getElementById("total-purchases").innerHTML = totalSelledProducts;
-    document.getElementById("total-money").innerHTML = totalMoney + " €";
-
-    drawMoneySupplyPerProductDiagram(ctx1, purchases);
-    drawSelledProductsAfterTimeDiagram(ctx2, purchases);
-});
-
-socket.on('giveAllUsers', (users) => {
-    var totalUsers = users.length;
-    document.getElementById("total-users").innerHTML = totalUsers;
-});
-
-socket.on('giveAllProducers', (producers) => {
-    var totalProducers = producers.length;
-    document.getElementById("total-producers").innerHTML = totalProducers;
-});
 
 function drawHorizontalGridLines(ctx){
     ctx.lineWidth = "1";

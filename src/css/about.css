@@ -1,14 +1,14 @@
 .stats-element {
     font-size: 20px;
     display: inline;
-    color: white;
+    color: black;
     font-family: sans-serif;
     margin-right: 5px;
 }
 
 .stats-value {
     font-size: 50px;
-    color: white;
+    color: black;
     font-family: sans-serif;
     display: inline;
 }
@@ -16,19 +16,21 @@
 .stat-element-container{
     margin-bottom: 20px;
     height: 100px;
-    background-color: rgb(37, 29, 88);
+    background-color: rgb(110, 96, 201);
     display: flex;
     align-items: center;
 }
 
-i{
+img{
     margin-left: 10px;
     margin-right: 30px;
-    color: white;
+    color: black;
     padding: 5px;
     font-size: 50px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    border: 2px solid white
+    border: 2px solid black
 }
 
 canvas{

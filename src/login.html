@@ -50,6 +50,12 @@
     var socket = io();
     var salt = "!§$%&";
 
+    function checkUserLogin(e){
+        if(e){e.preventDefault();}
+        socket.emit('getAllUsersForLogin');
+        return false;
+    }
+
     socket.on('giveAllUsersForLogin', (users) => {
         console.log(users);
         var userFound = false;
@@ -68,6 +74,13 @@
             alert("Password or username are incorrect!");
         }
     });
+
+    function checkForNewUser(e){
+        console.log(e);
+        e.preventDefault();
+        socket.emit('getAllUsersForRegistration');
+        return false;
+    }
     
     socket.on('giveAllUsersForRegistration', (users) => {
         console.log("Log users:");
@@ -75,9 +88,6 @@
 
         // Check for same user name 
         for(let i=0; i<users.length; i++){
-            console.log(users[i]);
-            console.log(document.getElementById('username-register').value);
-            console.log(users[i].Username);
             if(users[i].Username === document.getElementById('username-register').value){
                 alert("User name already exists! Please chose a different one");
                 isUserUnique = false;
@@ -104,24 +114,9 @@
                     Password: hashedPassword,
                     PermissionId: 2
                 }
-                console.log(user);
                 socket.emit('addUser', user);      
                 checkUserLogin(null);      
-              
             }
         }
     });
-
-    function checkUserLogin(e){
-        if(e){e.preventDefault();}
-        socket.emit('getAllUsersForLogin');
-        return false;
-    }
-
-    function checkForNewUser(e){
-        console.log(e);
-        e.preventDefault();
-        socket.emit('getAllUsersForRegistration');
-        return false;
-    }
 </script>
