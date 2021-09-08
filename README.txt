@@ -1,6 +1,9 @@
-Dies ist das Web-Shop Projekt von Simon Schnieder und Jonas Czeslik.
+Dies ist das Web-Shop Projekt von Simon Schnieder und Jonas Czeslik, erstellt im Rahmen der Projektarbeit fürs Web- und Multimediatechnologien Modul.
 
-Für die leichtere Versionsverwaltung der Datenbank haben wir eine Datenbank auf bzw. mit remotemysql.com erstellt.
-In seltenen Fällen, gibt es bei der Verbindung Fehler seitens remotemysql.com für 1-5 Minuten. 
-Um trotzdem ein testen manuell zu ermöglichen, haben wir die sql der Datenbank mit in der Abgabe.
-In diesem Fall muss die Datenbank-Konfiguration im Web-Server(index.js, Z. 13-19) entsprechend angepasst werden.
+!!!!WICHTIG!!!!
+Für die leichtere Versionsverwaltung der Datenbank hatten wir eine Datenbank auf bzw. mit remotemysql.com erstellt.
+DIESE IST LEIDER NICHT MEHR ERREICHBAR.
+
+Um sich trotzdem manuell ein Benutzen/testen zu ermöglichen, haben wir die sql der Datenbank mit in dem Repository.
+
+DAHER MUSS DIE DATENBANK-KONFIGURATION IM WEB-SERVER(INDEX.JS, Z. 13-19) ENTSPRECHEND ANGEPASST WERDEN.
